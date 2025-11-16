@@ -343,8 +343,20 @@ node server.js
 
 Grazie a tutti i contributori che aiutano a rendere PandaOS migliore! 🚗💨
 
+Tutti i contributori sono riconosciuti nel file [AUTHORS](../AUTHORS).
+
 ---
 
-**Ultimo aggiornamento**: Novembre 2024  
-**Maintainer**: Cyberpandino
+## 👨‍💻 Autori & Maintainer
+
+PandaOS è sviluppato e mantenuto da:
+
+- **[Matteo Errera](https://github.com/matteoerrera)** - Lead Developer & CTO @ Runder
+- **[Roberto Zaccardi](https://github.com/rzaccardi)** - Co-Developer & Co-Founder @ Magicitems
+- **[Ludovico Verde](https://www.instagram.com/ludovico.verdee/)** - Design & Creative Direction
+
+---
+
+**Ultimo aggiornamento**: Novembre 2025  
+**Team**: Cyberpandino
 

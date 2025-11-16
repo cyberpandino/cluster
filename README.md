@@ -644,3 +644,15 @@ Consulta la [guida completa per contribuire](.github/CONTRIBUTING.md) per tutti 
 
 Per problemi o domande, apri una issue su GitHub.
 
+---
+
+## 👨‍💻 Autori
+
+PandaOS è sviluppato e mantenuto da:
+
+- **[Matteo Errera](https://github.com/matteoerrera)** - Lead Developer & CTO @ Runder
+- **[Roberto Zaccardi](https://github.com/rzaccardi)** - Co-Developer & Co-Founder @ Magicitems
+- **[Ludovico Verde](https://www.instagram.com/ludovico.verdee/)** - Design & Creative Direction
+
+Vedi [AUTHORS](AUTHORS) per la lista completa e dettagli sui contributori.
+

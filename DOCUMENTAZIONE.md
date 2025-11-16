@@ -340,6 +340,16 @@ const variabile = valore;
 
 ---
 
+## 👨‍💻 Autori
+
+PandaOS è sviluppato da:
+
+- **[Matteo Errera](https://github.com/matteoerrera)**
+- **[Roberto Zaccardi](https://github.com/rzaccardi)**
+- **[Ludovico Verde](https://www.instagram.com/ludovico.verdee/)** - Design & Creative Direction
+
+---
+
 ## 🔄 Aggiornamenti Documentazione
 
 **Versione**: 0.9.0  

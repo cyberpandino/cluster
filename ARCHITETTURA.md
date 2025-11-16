@@ -913,6 +913,14 @@ Vedi [LICENSE](LICENSE) per i dettagli completi.
 
 ---
 
+## 👨‍💻 Autori
+
+- **[Matteo Errera](https://github.com/matteoerrera)** - Lead Developer
+- **[Roberto Zaccardi](https://github.com/rzaccardi)** - Co-Developer
+- **[Ludovico Verde](https://www.instagram.com/ludovico.verdee/)** - Design & Creative
+
+---
+
 **Ultimo aggiornamento**: v0.9.0  
-**Autore**: PandaOS Team - Cyberpandino
+**Team**: PandaOS - Cyberpandino
 

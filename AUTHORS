@@ -1,0 +1,55 @@
+# Autori e Contributori
+
+## Team Principale
+
+PandaOS è stato creato e viene mantenuto da:
+
+### Matteo Errera
+- **Ruolo**: Lead Developer & Architect
+- **GitHub**: [@matteoerrera](https://github.com/matteoerrera)
+- **Contributi**: Architettura sistema, server backend, integrazione hardware OBD-II e GPIO
+- **Affiliazione**: CTO @ Runder
+
+### Roberto Zaccardi
+- **Ruolo**: Co-Developer
+- **GitHub**: [@rzaccardi](https://github.com/rzaccardi)
+- **Contributi**: Sviluppo frontend, state management, servizi WebSocket
+- **Affiliazione**: Co-Founder @ Magicitems
+
+### Ludovico Verde
+- **Ruolo**: Design & Creative Direction
+- **Instagram**: [@ludovico.verdee](https://www.instagram.com/ludovico.verdee/)
+- **Contributi**: UI/UX design, interfaccia 3D, branding, esperienza utente
+
+---
+
+## Team Cyberpandino
+
+Il progetto è sviluppato dal team **Cyberpandino**, un collettivo di appassionati di automotive, elettronica e software che credono nella potenza del software libero e nell'innovazione hobbistica.
+
+---
+
+## Come Contribuire
+
+Se vuoi contribuire a PandaOS, consulta la [guida per contribuire](.github/CONTRIBUTING.md).
+
+Tutti i contributori saranno riconosciuti in questo file e nei release notes del progetto.
+
+---
+
+## Ringraziamenti Speciali
+
+Grazie a tutti coloro che hanno contribuito con:
+- Segnalazioni di bug
+- Richieste di feature
+- Test su hardware diverso
+- Miglioramenti alla documentazione
+- Codice e pull request
+
+Ogni contributo, grande o piccolo, è importante per il progetto! 🚗💨
+
+---
+
+**Licenza**: GNU General Public License v3.0 or later  
+**Copyright**: (C) 2025 Cyberpandino
+

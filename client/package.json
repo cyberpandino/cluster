@@ -2,8 +2,22 @@
   "name": "cyberpandino-cockpit",
   "private": true,
   "version": "0.0.0",
-  "author": "Cyberpandino",
+  "author": "Cyberpandino (Matteo Errera, Roberto Zaccardi, Ludovico Verde)",
   "license": "GPL-3.0-or-later",
+  "contributors": [
+    {
+      "name": "Matteo Errera",
+      "url": "https://github.com/matteoerrera"
+    },
+    {
+      "name": "Roberto Zaccardi",
+      "url": "https://github.com/rzaccardi"
+    },
+    {
+      "name": "Ludovico Verde",
+      "url": "https://www.instagram.com/ludovico.verdee/"
+    }
+  ],
   "type": "module",
   "scripts": {
     "dev": "vite",

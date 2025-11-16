@@ -11,9 +11,23 @@
     "server": "node server/server.js",
     "electron": "wait-on http://localhost:5173 && electron ."
   },
-  "keywords": [],
-  "author": "Cyberpandino",
+  "keywords": ["automotive", "obd2", "raspberry-pi", "fiat-panda", "digital-cluster", "gpio"],
+  "author": "Cyberpandino (Matteo Errera, Roberto Zaccardi, Ludovico Verde)",
   "license": "GPL-3.0-or-later",
+  "contributors": [
+    {
+      "name": "Matteo Errera",
+      "url": "https://github.com/matteoerrera"
+    },
+    {
+      "name": "Roberto Zaccardi",
+      "url": "https://github.com/rzaccardi"
+    },
+    {
+      "name": "Ludovico Verde",
+      "url": "https://www.instagram.com/ludovico.verdee/"
+    }
+  ],
   "type": "commonjs",
   "devDependencies": {
     "concurrently": "^9.1.2",
