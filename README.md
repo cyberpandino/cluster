@@ -109,7 +109,7 @@ cluster/
 ### 1. Clonare il Repository
 
 ```bash
-git clone [<repository-url>](https://github.com/cyberpandino/cluster)
+git clone https://github.com/cyberpandino/cluster
 cd cluster
 ```
 
