@@ -33,6 +33,29 @@ Vuoi contribuire? Ogni aiuto è benvenuto! Vedi la [guida per contribuire](.gith
 
 ---
 
+## 📚 Indice della Documentazione
+
+### 🚀 Inizia Qui
+- **[Quick Start](QUICK_START.md)** - Guida rapida per iniziare subito
+- **[Hardware](HARDWARE.md)** - Lista completa componenti e schema di montaggio
+
+### 📖 Documentazione Tecnica
+- **[Architettura](ARCHITETTURA.md)** - Architettura dettagliata del sistema
+- **[Documentazione Generale](DOCUMENTAZIONE.md)** - Overview completa del progetto
+- **[Configurazione Client](client/CONFIGURAZIONE.md)** - Setup e configurazione frontend
+- **[Configurazione Server](server/CONFIGURAZIONE_SERVER.md)** - Setup e configurazione backend
+- **[Configurazione Environment](client/src/config/README.md)** - Variabili d'ambiente e parametri
+
+### 🤝 Contribuzione
+- **[Come Contribuire](.github/CONTRIBUTING.md)** - Guida completa per contribuire al progetto
+
+### 📋 Altro
+- **[Roadmap](ROADMAP.md)** - Piano di sviluppo e wishlist
+- **[Autori](AUTHORS.md)** - Chi ha contribuito al progetto
+- **[Licenza](LICENSE)** - GNU General Public License v3.0
+
+---
+
 ## ⚠️ Disclaimer
 
 PandaOS è un progetto hobbistico e sperimentale, nato per curiosità tecnica e spirito di avventura digitale. Non è un prodotto certificato, non è pensato per la produzione e non ha alcuna pretesa di rispettare standard industriali, automotive o galattici.

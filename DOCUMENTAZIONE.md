@@ -116,23 +116,7 @@ Feature future, wishlist e idee per contribuire al progetto.
 
 ---
 
-### 6. [client/CONFIGURAZIONE.md](client/CONFIGURAZIONE.md) - Configurazione Client
-**Contenuto**:
-- 📁 File `environment.ts` spiegato in dettaglio
-- 🔧 Parametri WebSocket (URL, mock mode, timeout)
-- 🎬 Configurazione splash screen
-- 🐛 Debug mode e console viewer
-- 🌍 Locale, timezone, formato orario
-- 📋 Esempi configurazione (sviluppo, produzione, testing)
-- 🔄 Workflow di sviluppo
-- 🔍 Modalità mock vs reale
-- 🚨 Troubleshooting client
-
-**Per Chi**: Frontend developers, chi personalizza l'interfaccia
-
----
-
-### 7. [server/CONFIGURAZIONE_SERVER.md](server/CONFIGURAZIONE_SERVER.md) - Setup Hardware e Server
+### 6. [server/CONFIGURAZIONE_SERVER.md](server/CONFIGURAZIONE_SERVER.md) - Setup Hardware e Server
 **Contenuto**:
 - 🛠️ Requisiti hardware completi
 - 🔧 Configurazione Raspberry Pi passo-passo
@@ -175,7 +159,7 @@ Feature future, wishlist e idee per contribuire al progetto.
 
 ---
 
-### 5. [ARCHITETTURA.md](ARCHITETTURA.md) - Documentazione Tecnica
+### 7. [ARCHITETTURA.md](ARCHITETTURA.md) - Documentazione Tecnica
 **Contenuto**:
 - 📊 Diagramma architettura completo
 - 🔄 Flussi dati:
