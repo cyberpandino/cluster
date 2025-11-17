@@ -739,5 +739,5 @@ PandaOS è sviluppato e mantenuto da:
 - **[Roberto Zaccardi](https://github.com/rzaccardi)**
 - **[Ludovico Verde](https://www.instagram.com/ludovico.verdee/)**
 
-Vedi [AUTHORS](AUTHORS) per la lista completa e dettagli sui contributori.
+Vedi [AUTHORS](AUTHORS.md) per la lista completa e dettagli sui contributori.
 
