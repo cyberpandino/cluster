@@ -31,16 +31,9 @@ Sistema completo di quadro strumenti digitale che sostituisce la strumentazione 
 
 Il cluster digitale sostituisce completamente il quadro strumenti analogico originale con un'interfaccia moderna e personalizzabile.
 
-**Caratteristiche visive**:
-- 🎨 Modello 3D interattivo della Panda
-- ⚡ Animazioni fluide e reattive
-- 🌓 Temi personalizzabili (in roadmap)
-- 📊 Dati real-time da OBD-II
-- 💡 Spie integrate nel design
-
 <div align="center">
   <img src="docs/images/dashboard-main.png" alt="Dashboard principale" width="800"/>
-  <p><em>Dashboard principale con modello 3D interattivo e dati OBD in tempo reale</em></p>
+  <p><em>Dashboard principale con modello 3D interattivo</em></p>
 </div>
 
 ---
