@@ -26,5 +26,3 @@ export function formatTime(date: Date, format: TimeFormat = appConfig.timeFormat
 function padNumber(value: number): string {
   return value.toString().padStart(2, "0");
 }
-
-

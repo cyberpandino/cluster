@@ -342,6 +342,150 @@ Batteria 12V Veicolo
 - Protezioni: Sovratensione, sovracorrente, cortocircuito, inversione polarità
 - Efficienza: >85%
 
+### Installazione Pratica Alimentazione
+
+#### Da Dove Prelevare i 12V nella Panda 141
+
+Hai diverse opzioni per prelevare l'alimentazione 12V:
+
+**Opzione 1: Dalla Scatola Fusibili (CONSIGLIATA)**
+- **Posizione**: Sotto il cofano, lato sinistro vicino alla batteria
+- **Fusibili consigliati da cui derivare**:
+  - **F15 (10A)** - Quadro strumenti: Si attiva con chiave ON, perfetto per sincronizzare accensione sistema
+  - **F16 (7.5A)** - Accessori: Sempre alimentato, utile se vuoi il sistema sempre attivo
+  - **F17 (15A)** - Presa accendisigari: Comodo per test, sempre alimentato
+- **Vantaggi**: Fusibili già presenti, facile derivazione con spinotti faston, protezione esistente
+- **Come fare**: Usa spinotti faston a "Y" per derivare senza tagliare cavi originali
+
+**Opzione 2: Batteria Diretta (per installazioni permanenti)**
+- **Posizione**: Sotto il cofano, terminale positivo batteria
+- **Vantaggi**: Alimentazione sempre disponibile, nessuna interferenza con fusibili esistenti
+- **Svantaggi**: Richiede fusibile dedicato in linea subito dopo il terminale batteria
+- **Come fare**: 
+  1. Collegare cavo rosso direttamente al polo positivo batteria
+  2. Inserire IMMEDIATAMENTE fusibile 5A in linea (max 10cm dal terminale)
+  3. Far passare il cavo protetto fino al cruscotto
+
+**Opzione 3: Dietro il Quadro Strumenti (più pulita)**
+- **Posizione**: Dietro il quadro, centralina di derivazione
+- **Vantaggi**: Cavi più corti, installazione più pulita, già nel cruscotto
+- **Come fare**: Consulta lo [Schema Elettrico Ufficiale](http://www.bunkeringegnere.altervista.org/esplosi/FIAT%20PANDA/panda%20141/1100%20mpi/55%20IMPIANTO%20ELETTRICO%20-%20SCHEMI%20-%20GAMMA%202000.pdf) per identificare i cavi corretti
+
+⚠️ **IMPORTANTE**: Indipendentemente dall'opzione scelta, usa SEMPRE fusibili separati per ogni componente!
+
+#### Disposizione Fisica dei Fusibili
+
+**Layout Consigliato nel Veicolo**:
+
+```
+Punto di prelievo 12V (batteria o fusibili)
+    │
+    ├─── Cavo rosso 1.0mm² (30cm) ──→ [PORTAFUSIBILI INLINE 2A] ──→ Convertitore DC-DC
+    │                                                                       │
+    ├─── Cavo rosso 1.0mm² (50cm) ──→ [PORTAFUSIBILI INLINE 3A] ──────────┼──→ Display 12V
+    │                                                                       │
+    └─── Cavo rosso 0.5mm² (20cm) ──→ [PORTAFUSIBILI INLINE 1A] ──────────┼──→ Optoaccoppiatori
+                                                                            │
+                                                                            ▼
+                                                                      Convertitore DC-DC
+                                                                            │
+                                                                            ├──→ USB-C Raspberry Pi 5V 3A
+```
+
+**Posizionamento fisico**:
+- **Fusibile Raspberry**: Vicino al convertitore DC-DC (sotto cruscotto)
+- **Fusibile Display**: Dietro il display stesso (facilita sostituzione)
+- **Fusibile Optoaccoppiatori**: Vicino alla breadboard/PCB optoaccoppiatori
+- **Massa (GND)**: Collegare a massa carrozzeria con occhiello (vite telaio cruscotto)
+
+#### Cablaggio Convertitore DC-DC
+
+**Passaggi Installazione**:
+
+1. **Posizionamento**: Fissa il convertitore sotto il cruscotto con fascette o velcro
+2. **Input 12V**:
+   - Collega cavo rosso da fusibile 2A → terminale INPUT+ convertitore
+   - Collega cavo nero da massa carrozzeria → terminale INPUT- convertitore
+3. **Output 5V**:
+   - Usa cavo USB-C da OUTPUT+ / OUTPUT- convertitore → Raspberry Pi
+   - Oppure saldare direttamente ai pin USB-C (più stabile)
+4. **Regolazione tensione**:
+   - Prima di collegare il Raspberry, verifica con multimetro l'output
+   - Regola trimmer sul convertitore fino a leggere esattamente **5.0V - 5.2V**
+   - ⚠️ NON superare 5.3V (danneggerebbe il Raspberry!)
+5. **Test carico**:
+   - Collega il Raspberry spento
+   - Misura tensione sotto carico (deve rimanere 5.0-5.2V)
+   - Se scende sotto 4.8V, il convertitore è sottodimensionato
+
+#### Sezione Cavi Consigliata
+
+| Componente | Corrente Max | Lunghezza | Sezione Cavo |
+|------------|--------------|-----------|--------------|
+| Raspberry Pi (12V→5V) | 2A @ 12V | <1m | 1.0 mm² |
+| Display 12V | 3A @ 12V | <1m | 1.0 mm² |
+| Optoaccoppiatori | 0.5A @ 12V | <0.5m | 0.5 mm² |
+| Massa (GND comune) | 5A totali | <1m | 1.5 mm² |
+
+**Nota**: Sezioni maggiorate rispetto al minimo per compensare perdite e vibrazioni automotive.
+
+#### Connessione a Quadro ON/OFF
+
+Per sincronizzare l'accensione del sistema con il quadro:
+
+**Metodo 1: Preleva da F15 (Quadro Strumenti)**
+- Pro: Si accende/spegne automaticamente con chiave
+- Pro: Non scarica batteria quando veicolo spento
+- Contro: Nessun ritardo, spegnimento immediato alla rimozione chiave
+
+**Metodo 2: Batteria Diretta + GPIO Ignition (CONSIGLIATO)**
+- Pro: Alimentazione continua, controllo software dello shutdown
+- Pro: Puoi implementare timer di spegnimento ritardato
+- Pro: Eviti corruzione SD card con shutdown controllato
+- Richiede: GPIO 21 collegato a segnale "chiave inserita" (vedi CONFIGURAZIONE_SERVER.md)
+
+**Procedura Metodo 2**:
+1. Alimenta Raspberry da batteria diretta (sempre ON)
+2. Collega GPIO 21 a spia "chiave inserita" tramite optoaccoppiatore
+3. Script `low-power.sh` viene eseguito quando togli la chiave
+4. Implementa shutdown ritardato di 5-10 minuti (vedi CONFIGURAZIONE_SERVER.md § Ignition)
+
+#### Checklist Pre-Accensione
+
+Prima di accendere il sistema per la prima volta:
+
+- [ ] Verifica polarità con multimetro (rosso=12V, nero=0V)
+- [ ] Controlla tensione batteria: deve essere 12.0-14.5V
+- [ ] Verifica continuità massa (GND) verso carrozzeria
+- [ ] Fusibili correttamente inseriti (2A, 3A, 1A)
+- [ ] Convertitore DC-DC regolato a 5.0-5.2V (senza carico)
+- [ ] Cavi ben isolati (guaina termorestringente)
+- [ ] Connessioni salde (non volanti)
+- [ ] Raspberry Pi NON ancora collegato (test convertitore a vuoto prima)
+
+#### Troubleshooting Alimentazione
+
+**Raspberry non si accende**:
+1. Verifica tensione OUTPUT convertitore con multimetro (deve essere 5.0-5.2V)
+2. Controlla LED alimentazione Raspberry (rosso fisso = alimentato)
+3. Verifica fusibile 2A non bruciato
+4. Controlla connessione USB-C ben inserita
+
+**Raspberry si riavvia casualmente**:
+- Causa: Tensione instabile o picchi sotto carico
+- Soluzione: Usa condensatore elettrolitico 1000µF 16V sull'output convertitore
+- Oppure: Convertitore sottodimensionato, passa a modello 5A
+
+**Display non si accende**:
+1. Verifica alimentazione 12V ai pin display
+2. Controlla fusibile 3A
+3. Verifica cavo HDMI collegato al Raspberry
+
+**Sistema si scarica la batteria**:
+- Verifica corrente totale a quadro spento: <50mA è accettabile
+- Se >200mA: problema di dispersione, controlla cablaggio
+- Usa interruttore manuale o preleva da F15 (si spegne con chiave)
+
 ⚠️ **IMPORTANTE**: Usa sempre fusibili PRIMA di ogni componente, non dopo!
 
 

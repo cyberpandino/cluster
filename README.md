@@ -1,5 +1,11 @@
 # 🚗 Cyberpandino Cluster - PandaOS
 
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Version](https://img.shields.io/badge/version-0.9.0-green.svg)](https://github.com/cyberpandino/cluster/releases)
+[![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org/)
+[![Platform](https://img.shields.io/badge/platform-Raspberry%20Pi%204B%2F5-red.svg)](https://www.raspberrypi.com/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/cyberpandino/cluster/blob/main/.github/CONTRIBUTING.md)
+
 Quadro strumenti digitale per Fiat Panda 141 basato su Raspberry Pi 4B.
 
 ## 📋 Descrizione
@@ -16,6 +22,28 @@ Sistema completo di quadro strumenti digitale che sostituisce la strumentazione 
 - ✅ **Gestione quadro accensione**: Sistema di power-saving automatico
 - ✅ **Interfaccia moderna**: Dashboard 3D con modello Panda interattivo
 - ✅ **Modalità demo**: Per sviluppo senza hardware
+
+---
+
+## 📸 Anteprima
+
+### Dashboard Principale
+
+Il cluster digitale sostituisce completamente il quadro strumenti analogico originale con un'interfaccia moderna e personalizzabile.
+
+**Caratteristiche visive**:
+- 🎨 Modello 3D interattivo della Panda
+- ⚡ Animazioni fluide e reattive
+- 🌓 Temi personalizzabili (in roadmap)
+- 📊 Dati real-time da OBD-II
+- 💡 Spie integrate nel design
+
+<div align="center">
+  <img src="docs/images/dashboard-main.png" alt="Dashboard principale" width="800"/>
+  <p><em>Dashboard principale con modello 3D interattivo e dati OBD in tempo reale</em></p>
+</div>
+
+---
 
 ### 🗺️ Feature Future
 
@@ -116,8 +144,8 @@ Perché è un **progetto hobbistico** e vogliamo **divertirci**, non impazzire.
 
 **Contro (che accettiamo consapevolmente)**:
 - 💾 **Mangia RAM** come fosse pasta (~500MB vs ~50MB)
-- 🐌 **Boot lento** (~40s vs ~3s, ma tanto la Panda ci mette di più ad accendersi)
-- 🔋 **Consuma** più di quanto dovrebbe
+- 🐌 **Boot lento** (~30s vs ~3s) - ma con modalità standby sempre acceso diventa istantaneo
+- 🔋 **Consuma** più di quanto dovrebbe (ma standby consuma solo 0.4W, trascurabile)
 - 📊 **JavaScript** - Sì, JavaScript. Su un'auto. Deal with it.
 
 **Il punto è**: Stiamo parlando di una **Panda del 1990**. Non è un F-35. Non deve andare sulla Luna.  
@@ -128,6 +156,25 @@ Deve mostrarti i giri motore in modo figo mentre ascolti i Pink Floyd. E questo 
 ---
 
 ## ⚙️ Requisiti di Sistema
+
+### Prerequisiti Software
+
+| Software | Versione Minima | Consigliata |
+|----------|----------------|-------------|
+| **Node.js** | 18.0.0 | 20.x LTS |
+| **npm** | 9.0.0 | 10.x |
+| **Git** | 2.0+ | Latest |
+
+```bash
+# Verifica rapida
+node --version  # >= v18.0.0
+npm --version   # >= 9.0.0
+git --version   # >= 2.0.0
+```
+
+⚠️ **Raspberry Pi**: Non usare `apt install nodejs` (versione obsoleta). Vedi [CONFIGURAZIONE_SERVER.md](server/CONFIGURAZIONE_SERVER.md#2-installazione-nodejs-e-npm) per NodeSource/nvm.
+
+---
 
 ### Per Raspberry Pi (Produzione)
 
@@ -142,19 +189,21 @@ Deve mostrarti i giri motore in modo figo mentre ascolti i Pink Floyd. E questo 
 📋 **Lista completa hardware**: Vedi [HARDWARE.md](HARDWARE.md) per dettagli su tutti i componenti necessari
 
 - **Sistema Operativo**:
-  - Raspberry Pi OS (Debian-based)
+  - Raspberry Pi OS Lite (64-bit) - Debian-based consigliato
+  - Boot time: ~30s (ottimizzabile a ~20s, o istantaneo con modalità standby)
   - Architettura ARM/ARM64
+  
+  > 📘 **Scelta OS e Boot Time**: Vedi [CONFIGURAZIONE_SERVER.md](server/CONFIGURAZIONE_SERVER.md#1-installazione-sistema-operativo) per dettagli su come scegliere la distro giusta, ottimizzare il boot time e configurare la modalità **standby sempre acceso** (consumo trascurabile, avvio istantaneo)
 
-- **Software**:
-  - Node.js 18+ 
-  - npm 9+
-  - Git
+- **Software**: Vedi [CONFIGURAZIONE_SERVER.md](server/CONFIGURAZIONE_SERVER.md#2-installazione-nodejs-e-npm) per istruzioni installazione su Raspberry Pi
 
 ### Per Sviluppo Locale (Mac/Windows/Linux)
 
-- Node.js 18+
-- npm 9+
-- Git
+- Node.js 18+ (20 LTS consigliato)
+- npm 9+ (10.x consigliato)
+- Git 2.0+
+
+> 💡 **Setup Veloce**: Vedi istruzioni installazione nella sezione [Prerequisiti Software](#prerequisiti-software) sopra
 
 ⚠️ **NOTA**: Eseguendo il progetto su sistemi non-Raspberry Pi, il server fallirà all'avvio per mancanza di dipendenze hardware specifiche (GPIO, sensori, porta seriale OBD). È possibile usare la **modalità mock** nel client per sviluppo senza server.
 

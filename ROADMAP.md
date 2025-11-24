@@ -22,18 +22,6 @@ Feature e miglioramenti che vorremmo implementare nel progetto.
 **Componenti**: 4-8 sensori ultrasonici, Arduino/ESP32 per processing  
 **Benefici**: Assistenza parcheggio tipo auto moderne
 
-#### 🚪 Animazione Portiere 3D
-**Descrizione**: Rappresentare sportelli aperti/chiusi sul modello 3D della Panda nel cluster  
-**Complessità**: Bassa  
-**Componenti**: Sensori porta (già presenti via GPIO su alcune versioni)  
-**Benefici**: Feedback visivo immediato, UI più immersiva
-
-#### 💡 Luci sul Modello 3D
-**Descrizione**: Mostrare luci accese (abbaglianti, frecce, fendinebbia) direttamente sul modello 3D  
-**Complessità**: Bassa  
-**Componenti**: Solo software (dati già disponibili da GPIO)  
-**Benefici**: Visualizzazione intuitiva stato luci, UI più coinvolgente
-
 ### Media Priorità
 
 - **Sensore pioggia** - Regolazione automatica tergicristalli
@@ -77,6 +65,18 @@ Feature e miglioramenti che vorremmo implementare nel progetto.
 **Complessità**: Alta  
 **Tecnologie**: React Native / Flutter, API REST/WebSocket  
 **Benefici**: Accesso dati anche lontano dal veicolo
+
+#### 🚪 Animazione Portiere 3D
+**Descrizione**: Rappresentare sportelli aperti/chiusi sul modello 3D della Panda nel cluster  
+**Complessità**: Bassa  
+**Tecnologie**: Three.js, animazioni modello 3D, integrazione GPIO  
+**Benefici**: Feedback visivo immediato, UI più immersiva
+
+#### 💡 Luci sul Modello 3D
+**Descrizione**: Mostrare luci accese (abbaglianti, frecce, fendinebbia) direttamente sul modello 3D  
+**Complessità**: Bassa  
+**Tecnologie**: Three.js materials, emissive textures, dati GPIO esistenti  
+**Benefici**: Visualizzazione intuitiva stato luci, UI più coinvolgente
 
 ### Media Priorità
 

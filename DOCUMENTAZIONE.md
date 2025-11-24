@@ -217,55 +217,6 @@ cockpit/
     ├── services/                      ← 📦 Servizi backend
     └── scripts/                       ← ⚡ Script power-saving
 ```
-
----
-
-## 🎓 Percorsi di Apprendimento
-
-### Path 1: Sviluppatore Frontend
-1. [QUICK_START.md](QUICK_START.md) → Avvio rapido
-2. [client/CONFIGURAZIONE.md](client/CONFIGURAZIONE.md) → Setup client
-3. [ARCHITETTURA.md](ARCHITETTURA.md) → Moduli client e state management
-
-**Obiettivo**: Modificare UI e componenti React
-
----
-
-### Path 2: Hardware Engineer
-1. [HARDWARE.md](HARDWARE.md) → Lista componenti da acquistare
-2. [README.md](README.md) → Panoramica generale
-3. [server/CONFIGURAZIONE_SERVER.md](server/CONFIGURAZIONE_SERVER.md) → Setup completo hardware
-4. [ARCHITETTURA.md](ARCHITETTURA.md) → Flussi dati sensori
-
-**Obiettivo**: Acquistare componenti, configurare Raspberry Pi, GPIO, sensori
-
----
-
-### Path 3: Backend Developer
-1. [QUICK_START.md](QUICK_START.md) → Avvio rapido
-2. [server/CONFIGURAZIONE_SERVER.md](server/CONFIGURAZIONE_SERVER.md) → OBD e servizi
-3. [ARCHITETTURA.md](ARCHITETTURA.md) → Servizi server e PID
-
-**Obiettivo**: Estendere funzionalità server, aggiungere PID
-
----
-
-### Path 4: System Administrator
-1. [README.md](README.md) → Setup e PM2
-2. [server/CONFIGURAZIONE_SERVER.md](server/CONFIGURAZIONE_SERVER.md) → Permessi e servizi
-3. [README.md](README.md) sezione PM2 → Avvio automatico
-
-**Obiettivo**: Deploy produzione, monitoraggio, manutenzione
-
----
-
-### Path 5: Contributor
-1. [README.md](README.md) → Overview completo
-2. [ARCHITETTURA.md](ARCHITETTURA.md) → Architettura e estendibilità
-3. Tutti i file → Comprensione profonda
-
-**Obiettivo**: Contribuire al progetto con nuove feature
-
 ---
 
 ## 🔍 Trova Rapidamente
@@ -341,67 +292,11 @@ Apri una [issue](https://github.com/cyberpandino/cluster/issues/new?template=que
 
 ---
 
-## 📝 Convenzioni Documentazione
-
-### Icone Usate
-- 📋 Panoramica / Lista
-- 🚀 Avvio / Installazione
-- ⚙️ Configurazione
-- 🔧 Hardware / Tool
-- 🔌 Connessione / Interfaccia
-- 🌡️ Sensori
-- 🔢 GPIO / Pin
-- ⛽ Carburante
-- ⚡ Power / Energia
-- 💻 Software / Client
-- 🏗️ Architettura
-- 🔄 Flussi / Processi
-- 📦 Moduli / Servizi
-- 🎨 UI / Frontend
-- 🐛 Debug / Troubleshooting
-- 🚨 Errori / Warning
-- ✅ OK / Successo
-- ❌ Errore / Fallimento
-- ⚠️ Attenzione / Warning
-- 📚 Documentazione / Riferimenti
-- 🎯 Obiettivo / Target
-- 🔍 Ricerca / Dettagli
-- 📞 Supporto / Help
-
-### Formato Comandi
-```bash
-# Comando shell
-comando --opzione valore
-```
-
-### Formato Codice
-```javascript
-// Esempio codice
-const variabile = valore;
-```
-
-### Note Importanti
-> ⚠️ **NOTA**: Informazioni importanti evidenziate
-
----
-
 ## 🔄 Aggiornamenti Documentazione
 
 **Versione**: 0.9.0  
 **Ultimo aggiornamento**: Novembre 2025 
 
-### Changelog
-- ✅ README principale completo con spiegazione scelte tecnologiche
-- ✅ Quick Start Guide
-- ✅ Lista Hardware completa con fusibili e protezioni
-- ✅ Roadmap & Wishlist con 49+ idee per contribuire
-- ✅ Configurazione Client dettagliata
-- ✅ Configurazione Server e Hardware completa con schema elettrico ufficiale
-- ✅ Architettura e documentazione tecnica
-- ✅ Indice navigazione (questo file)
-- ✅ Template GitHub (issues, PR, contributing)
-- ✅ Licenza GPL-3.0 e header in tutti i file sorgente
-- ✅ Autori e contributori documentati
 
 
 

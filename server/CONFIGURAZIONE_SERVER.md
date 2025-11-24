@@ -31,7 +31,7 @@ Guida completa alla configurazione hardware e software del server backend.
 | **Adattatore OBD** | ELM327 USB | Comunicazione con centralina |
 | **Optoaccoppiatori** | PC817 o simili | Isolamento elettrico spie |
 | **Alimentatore** | 5V 3A USB-C | Alimentazione Raspberry |
-| **Display** | HDMI 1920x580+ | Visualizzazione cluster |
+| **Display** | HDMI 1920x480+ | Visualizzazione cluster |
 
 ### Componenti Opzionali
 
@@ -47,21 +47,214 @@ Guida completa alla configurazione hardware e software del server backend.
 
 ### 1. Installazione Sistema Operativo
 
+#### Scelta del Sistema Operativo
+
+**TL;DR**: Raspberry Pi OS Lite (64-bit) Debian-based, alleggerito dai servizi superflui.
+
+**Distribuzione Consigliata**: Raspberry Pi OS Lite (64-bit)
+- **Download**: [raspberrypi.com/software](https://www.raspberrypi.com/software/)
+- **Versione**: Bookworm (Debian 12) o successiva
+- **Architettura**: 64-bit (migliori performance per Node.js/Electron)
+
+**Perché Lite e non Desktop?**
+- ✅ Boot time ~30 secondi (vs ~60s con Desktop)
+- ✅ RAM libera: ~200MB (vs ~500MB con Desktop Environment)
+- ✅ Niente servizi inutili in background
+- ✅ Electron fornisce già la UI, non serve Desktop Manager
+- ❌ Più complesso da configurare (niente GUI, tutto via SSH)
+
+**Alternative Testate**:
+- **Raspberry Pi OS Desktop**: Funziona ma boot lento (~60s) e spreco RAM
+- **DietPi**: Ottima per boot ultra-rapidi (~15-20s) ma richiede più configurazione manuale
+
+#### Boot Time: La Realtà
+
+Dopo vari test, con **Raspberry Pi OS Lite alleggerito** siamo arrivati a:
+
+- **~30 secondi** di boot completo (POST → Login → PandaOS operativo)
+- **~20 secondi** se disabiliti servizi non essenziali (vedi ottimizzazioni sotto)
+
+**È tanto?** Dipende:
+- ❌ Se accendi/spegni il quadro spesso: sì, è noioso aspettare
+- ✅ Se usi modalità **standby sempre acceso** (quello che abbiamo usato noi): non è un problema.
+
+#### Approccio Standby Sempre Acceso:
+
+**Come funziona nel nostro setup**:
+
+1. Raspberry Pi **sempre alimentato** (batteria diretta)
+2. GPIO 21 rileva "chiave inserita" (vedi § Ignition)
+3. Quando **spegni quadro**:
+   - Script `low-power.sh` spegne display HDMI
+   - Sistema in standby: ~0.4W di consumo (trascurabile per batteria auto)
+4. Quando **accendi quadro**:
+   - Script `wake.sh` riaccende display
+   - Sistema **immediatamente operativo** (0 secondi boot!)
+
+**Vantaggi**:
+- ⚡ Cluster disponibile istantaneamente all'accensione
+- 🔋 Consumo standby bassissimo (~30mA @ 12V)
+- 🛡️ SD card protetta (nessun shutdown brusco)
+- 🕐 Boot time diventa irrilevante
+
+**Consumo Reale Misurato**:
+- **Standby** (display off, CPU idle): ~0.3-0.5W
+- **Operativo** (display on, dati OBD): ~6-8W
+- **Impatto batteria**: Trascurabile (<0.01% carica/giorno)
+
+⚠️ **Nota**: Se lasci l'auto ferma per >2 settimane, considera interruttore manuale o shutdown automatico dopo 7 giorni di inattività.
+
+#### Installazione Base
+
 ```bash
 # Scarica Raspberry Pi Imager
 # https://www.raspberrypi.com/software/
 
-# Installa Raspberry Pi OS Lite (64-bit) o Desktop
-# Configura WiFi e SSH durante installazione
+# 1. Seleziona OS: "Raspberry Pi OS Lite (64-bit)"
+# 2. Configura (icona ingranaggio):
+#    - Hostname: pandaos
+#    - Abilita SSH
+#    - Username/Password: pi/tua-password
+#    - WiFi (SSID e password)
+#    - Locale: it_IT, timezone Europe/Rome
+# 3. Scrivi su microSD
+# 4. Inserisci nel Raspberry e accendi
 ```
 
-### 2. Aggiornamento Sistema
+#### Ottimizzazioni Boot Time (Avanzato)
+
+> 💡 **Nota**: Questa sezione è per chi vuole il boot più veloce possibile. Se usi **standby sempre acceso**, puoi saltarla tranquillamente.
+
+Con questi tweak puoi scendere da 30s a ~15-20s:
+
+**1. Disabilita Servizi Inutili**
 
 ```bash
-sudo apt update
-sudo apt upgrade -y
-sudo apt install -y git nodejs npm
+# Bluetooth (se non serve)
+sudo systemctl disable bluetooth.service
+sudo systemctl disable hciuart.service
+
+# ModemManager (se non hai modem USB)
+sudo systemctl disable ModemManager.service
+
+# Servizi stampante (non servono su auto)
+sudo systemctl disable cups.service
+sudo systemctl disable cups-browsed.service
+
+# Triggerhappy (non serve)
+sudo systemctl disable triggerhappy.service
+
+# Riavvia e verifica tempo boot
+sudo reboot
+systemd-analyze  # Mostra tempo totale
+systemd-analyze blame  # Mostra servizi più lenti
 ```
+
+**2. Ottimizza Boot Kernel**
+
+Modifica `/boot/cmdline.txt`:
+
+```bash
+sudo nano /boot/cmdline.txt
+
+# Aggiungi alla fine della riga (tutto su UNA riga):
+quiet splash fastboot noatime nodiratime
+```
+
+**3. Disabilita Attesa Rete**
+
+```bash
+# Se usi IP statico o non serve rete all'avvio
+sudo systemctl disable NetworkManager-wait-online.service
+sudo systemctl disable systemd-networkd-wait-online.service
+```
+
+**4. Riduci Timeout Boot**
+
+In `/etc/systemd/system.conf`:
+
+```bash
+sudo nano /etc/systemd/system.conf
+
+# Decommentare e modificare:
+DefaultTimeoutStartSec=10s
+DefaultTimeoutStopSec=5s
+```
+
+**5. Avvia Server OBD Prima del Desktop**
+
+PM2 + systemd per avvio in parallelo (vedi § Configurazione PM2 nel README.md).
+
+**Risultati Attesi**:
+- **Boot OS**: ~8-12 secondi
+- **Avvio servizi**: ~5-8 secondi
+- **Totale**: ~15-20 secondi (vs 30s originali)
+
+#### Future Ottimizzazioni (TODO)
+
+> 📝 Sezione WIP - Contributi benvenuti!
+
+Per chi volesse sperimentare boot <10 secondi:
+
+**Approcci da Testare**:
+- **Init custom**: Sostituire systemd con init più leggero (runit, OpenRC)
+- **Kernel minimale**: Compilare kernel Linux custom con solo driver necessari
+- **Read-only root**: Root filesystem in sola lettura (più veloce, più stabile)
+- **Initramfs ottimizzato**: Ridurre servizi caricati all'avvio
+
+**Roadmap**:
+1. Documentare procedura "Debian minimal" passo-passo
+2. Script automatico per applicare ottimizzazioni boot
+3. Immagine SD pre-configurata scaricabile
+
+Se hai esperienza con embedded Linux e vuoi contribuire, apri una [issue](https://github.com/cyberpandino/cluster/issues)!
+
+---
+
+### 2. Installazione Node.js e npm
+
+⚠️ **Importante**: `apt install nodejs` installa una versione obsoleta (v12-14). PandaOS richiede **Node.js 18+**.
+
+**Metodo Consigliato: NodeSource**
+
+```bash
+# Installa Node.js 20 LTS
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
+
+# Verifica
+node --version   # v20.x.x
+npm --version    # 10.x.x
+```
+
+**Alternativa: nvm** (se serve gestire più versioni)
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+source ~/.bashrc
+nvm install 20 && nvm use 20
+```
+
+> 💡 NodeSource è più stabile con PM2/systemd (consigliato per produzione)
+
+**Git e Build Tools**
+
+```bash
+sudo apt update && sudo apt upgrade -y
+sudo apt install -y git build-essential python3
+```
+
+`build-essential` è necessario per compilare moduli nativi (SerialPort, onoff, i2c-bus).
+
+**Verifica**
+
+```bash
+node --version    # >= v18.0.0
+npm --version     # >= 9.0.0
+gcc --version     # Verifica compiler
+```
+
+---
 
 ### 3. Configurazione Interfacce Hardware
 

@@ -8,6 +8,18 @@ Guida rapida per iniziare in 5 minuti.
 
 ## 🚀 Avvio Rapido
 
+### 0. Prerequisiti
+
+Node.js 18+, npm 9+, Git 2.0+
+
+```bash
+node --version && npm --version && git --version
+```
+
+> 📘 Raspberry Pi: vedi [CONFIGURAZIONE_SERVER.md](server/CONFIGURAZIONE_SERVER.md#2-installazione-nodejs-e-npm)
+
+---
+
 ### 1. Installazione
 
 ```bash
