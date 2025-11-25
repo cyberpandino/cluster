@@ -40,6 +40,9 @@ class OBDServer {
    * Verifica che il sistema sia un Raspberry Pi con le dipendenze essenziali
    * I sensori (temperatura e carburante) sono opzionali e non bloccano l'avvio
    * Se le dipendenze essenziali non sono disponibili, termina il processo con errore
+   * 
+   * Per sviluppo su laptop/desktop: usa il client in modalità mock (websocket.mock = true)
+   * oppure imposta variabile d'ambiente DEV_MODE=true per bypassare i check (non consigliato)
    */
   checkRaspberryPiDependencies() {
     const errors = [];
@@ -58,8 +61,10 @@ class OBDServer {
       errors.push(`Piattaforma non supportata: ${platform} ${arch} - richiesto Linux ARM (Raspberry Pi)`);
     }
     
-    // Se ci sono errori, termina il processo
+    // Se ci sono errori E non siamo in DEV_MODE, termina il processo
     if (errors.length > 0) {
+      const isDevMode = process.env.DEV_MODE === 'true';
+      
       console.error('═══════════════════════════════════════════════════════════');
       console.error('❌ ERRORE: Dipendenze Raspberry Pi essenziali non disponibili');
       console.error('═══════════════════════════════════════════════════════════');
@@ -71,6 +76,22 @@ class OBDServer {
       console.error('  - Modulo GPIO (onoff)');
       console.error('  - Sistema Linux ARM (Raspberry Pi)');
       console.error('═══════════════════════════════════════════════════════════');
+      console.error('');
+      console.error('💡 NOTA: Per sviluppo su laptop/desktop:');
+      console.error('   1. Usa il CLIENT in modalità mock (websocket.mock = true)');
+      console.error('   2. Non serve avviare il server - il client funziona standalone');
+      console.error('   3. Vedi: client/src/config/environment.ts');
+      console.error('');
+      
+      if (isDevMode) {
+        console.warn('⚠️  DEV_MODE attivo - server avviato senza hardware (non funzionale)');
+        console.warn('   Usa solo per test di sviluppo, non per produzione!');
+        return; // Non uscire, continua senza hardware
+      }
+      
+      console.error('Per installare dipendenze su sistemi non-Raspberry (es. per dev):');
+      console.error('   npm install --ignore-scripts');
+      console.error('');
       process.exit(1);
     }
     

@@ -548,6 +548,49 @@ Piattaforma non supportata: darwin arm64 - richiesto Linux ARM
 - Usa la modalità mock nel client (`websocket.mock = true`)
 - Oppure esegui il server solo su Raspberry Pi
 
+### Errore installazione: Python 3.13 / node-gyp incompatibile
+
+**Errore** (durante `npm install` nel server):
+```
+gyp ERR! stack TypeError: Cannot assign to read only property 'cflags'
+gyp info using node-gyp@7.1.2
+gyp info using Python version 3.13.5
+```
+
+**Causa**: La dipendenza `epoll` (usata da `onoff` per GPIO) ha una versione vecchia di `node-gyp` incompatibile con Python 3.13+.
+
+**Soluzioni**:
+
+**Opzione 1: Installazione con --ignore-scripts (Consigliata per dev)**
+```bash
+cd server
+npm install --ignore-scripts
+```
+
+Questo salta la compilazione delle dipendenze native (GPIO, SerialPort). Perfetto per:
+- ✅ Sviluppo su laptop/desktop
+- ✅ CI/CD pipelines
+- ✅ Sistemi con Python 3.13+
+- ❌ NON funziona su Raspberry Pi (serve compilare)
+
+**Opzione 2: Downgrade Python (solo se necessario per Raspberry)**
+```bash
+# Installa Python 3.11 (compatibile con node-gyp)
+sudo apt install python3.11
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.11 1
+```
+
+**Opzione 3: DEV_MODE (sviluppo server)**
+```bash
+cd server
+npm install --ignore-scripts
+DEV_MODE=true node server.js
+```
+
+⚠️ In DEV_MODE il server parte ma non è funzionale (niente GPIO/OBD). Usa solo per test.
+
+**Nota**: Le dipendenze hardware (`onoff`, `serialport`, `ads1x15`) sono `optionalDependencies` - falliscono senza bloccare l'installazione delle altre dipendenze.
+
 ### ELM327 non trovato
 
 **Errore**:

@@ -24,15 +24,17 @@
     }
   ],
   "dependencies": {
-    "@serialport/parser-readline": "^13.0.0",
-    "ads1x15": "^1.1.1",
     "child_process": "^1.0.2",
     "dbus-next": "^0.10.2",
     "dotenv": "^17.2.0",
     "obd": "^1.0.0",
     "obd-parser": "^0.3.0",
-    "onoff": "^6.0.3",
-    "serialport": "^13.0.0",
     "socket.io": "^4.8.1"
+  },
+  "optionalDependencies": {
+    "@serialport/parser-readline": "^13.0.0",
+    "ads1x15": "^1.1.1",
+    "onoff": "^6.0.3",
+    "serialport": "^13.0.0"
   }
 }
