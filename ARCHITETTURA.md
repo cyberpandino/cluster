@@ -10,22 +10,22 @@ Documentazione tecnica dell'architettura del sistema.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    ELECTRON WRAPPER                          │
+│                    ELECTRON WRAPPER                         │
 │  (main.js - Desktop Application - Port 5173)                │
 └──────────────────┬──────────────────────────────────────────┘
                    │
                    ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                    CLIENT LAYER                              │
+│                    CLIENT LAYER                             │
 │  (React + TypeScript + Vite - Port 5173)                    │
-│                                                               │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
-│  │  Components  │  │    Routes    │  │   Services   │      │
-│  │  (UI/UX)     │  │  (Cockpit)   │  │  (WebSocket) │      │
-│  └──────────────┘  └──────────────┘  └──────────────┘      │
-│                                                               │
+│                                                             │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐       │
+│  │  Components  │  │    Routes    │  │   Services   │       │
+│  │  (UI/UX)     │  │  (Cockpit)   │  │  (WebSocket) │       │
+│  └──────────────┘  └──────────────┘  └──────────────┘       │
+│                                                             │
 │  ┌──────────────────────────────────────────────────────┐   │
-│  │            State Management (Valtio)                  │   │
+│  │            State Management (Valtio)                 │   │
 │  │  - OBD Data    - GPIO Warnings    - Sensors          │   │
 │  └──────────────────────────────────────────────────────┘   │
 └──────────────────┬──────────────────────────────────────────┘
@@ -33,23 +33,23 @@ Documentazione tecnica dell'architettura del sistema.
                    │ ws://localhost:3001
                    ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                    SERVER LAYER                              │
+│                    SERVER LAYER                             │
 │  (Node.js + Express + Socket.IO - Port 3001)                │
-│                                                               │
+│                                                             │
 │  ┌──────────────────────────────────────────────────────┐   │
-│  │                   OBDServer (Main)                    │   │
+│  │                   OBDServer (Main)                   │   │
 │  └──────────────────────────────────────────────────────┘   │
-│                                                               │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
-│  │OBDComm       │  │  WebSocket   │  │  Monitoring  │      │
-│  │Service       │  │  Service     │  │  Service     │      │
-│  └──────┬───────┘  └──────────────┘  └──────────────┘      │
-│         │                                                     │
-│  ┌──────┴───────┐  ┌──────────────┐  ┌──────────────┐      │
-│  │GPIO          │  │  Ignition    │  │  Temperature │      │
-│  │Service       │  │  Service     │  │  Service     │      │
-│  └──────────────┘  └──────────────┘  └──────────────┘      │
-│                                                               │
+│                                                             │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐       │
+│  │OBDComm       │  │  WebSocket   │  │  Monitoring  │       │
+│  │Service       │  │  Service     │  │  Service     │       │
+│  └──────┬───────┘  └──────────────┘  └──────────────┘       │
+│         │                                                   │
+│  ┌──────┴───────┐  ┌──────────────┐  ┌──────────────┐       │
+│  │GPIO          │  │  Ignition    │  │  Temperature │       │
+│  │Service       │  │  Service     │  │  Service     │       │
+│  └──────────────┘  └──────────────┘  └──────────────┘       │
+│                                                             │
 │  ┌──────────────┐  ┌──────────────┐                         │
 │  │Fuel          │  │  PIDParser   │                         │
 │  │Service       │  │  Service     │                         │
@@ -58,14 +58,14 @@ Documentazione tecnica dell'architettura del sistema.
                    │
                    ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                    HARDWARE LAYER                            │
+│                    HARDWARE LAYER                           │
 │  (Raspberry Pi 4B - Sensori - Attuatori)                    │
-│                                                               │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
-│  │ ELM327 OBD   │  │  GPIO Pins   │  │  DS18B20     │      │
-│  │ /dev/ttyUSB0 │  │  (BCM mode)  │  │  (1-Wire)    │      │
-│  └──────────────┘  └──────────────┘  └──────────────┘      │
-│                                                               │
+│                                                             │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐       │
+│  │ ELM327 OBD   │  │  GPIO Pins   │  │  DS18B20     │       │
+│  │ /dev/ttyUSB0 │  │  (BCM mode)  │  │  (1-Wire)    │       │
+│  └──────────────┘  └──────────────┘  └──────────────┘       │
+│                                                             │
 │  ┌──────────────┐  ┌──────────────┐                         │
 │  │  ADS1115     │  │  Ignition    │                         │
 │  │  (I2C 0x48)  │  │  GPIO 21     │                         │
@@ -74,9 +74,9 @@ Documentazione tecnica dell'architettura del sistema.
                    │
                    ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                  VEHICLE ECU LAYER                           │
-│  (Fiat Panda 141 - Magneti Marelli IAW 4AF)                │
-│                                                               │
+│                  VEHICLE ECU LAYER                          │
+│  (Fiat Panda 141 - Magneti Marelli IAW 4AF)                 │
+│                                                             │
 │  • OBD-II K-Line (ISO 9141-2 / ISO 14230-4)                 │
 │  • Spie luminose 12V (optoaccoppiatori)                     │
 │  • Sensore carburante (0-12V analogico)                     │
