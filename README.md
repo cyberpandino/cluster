@@ -110,7 +110,7 @@ cluster/
 
 - **Frontend**: React 18, TypeScript, Three.js, Socket.IO Client
 - **Backend**: Node.js, Socket.IO Server, SerialPort, GPIO (onoff)
-- **Desktop**: Electron 26
+- **Desktop**: Electron 36
 - **Hardware**: Raspberry Pi 4B, ELM327, DS18B20, ADS1115
 
 ### 🤔 Ma React + Electron su un Automotive?! Siete Pazzi?
