@@ -11,7 +11,7 @@ Digital instrument cluster for the Fiat Panda 141, powered by Raspberry Pi 4B.
 ## 📋 Description
 
 A complete digital instrument cluster system that replaces the original analog dashboard of the Fiat Panda 141.  
-The system interfaces with the ECU using the OBD-II protocol (ELM327) and reads the indicator lights through optocouplers connected to the Raspberry Pi’s GPIO pins.
+The system interfaces with the ECU using the OBD-II protocol (ELM327) and reads the indicator lights through optocouplers connected to the Raspberry Pi's GPIO pins.
 
 
 ### Main Features (v0.9.0)
@@ -42,7 +42,7 @@ The digital cluster fully replaces the original analog dashboard with a modern a
 
 ### 🗺️ Upcoming Features
 
-Discover what we’re planning next: [Roadmap & Wishlist](ROADMAP.md)
+Discover what we're planning next: [Roadmap & Wishlist](ROADMAP.md)
 
 Some items on the list:
 - 📹 Rear camera and parking sensors
