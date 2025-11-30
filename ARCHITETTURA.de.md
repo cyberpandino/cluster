@@ -2,15 +2,15 @@
 
 ---
 
-# 🏗️ Architettura - PandaOS Cluster
+# 🏗️ Architektur - PandaOS Cluster
 
-Documentazione tecnica dell'architettura del sistema.
+Technische Dokumentation der Systemarchitektur.
 
-> 💡 **Nota sullo Stack**: Sì, usiamo JavaScript su un'auto. Sì, sappiamo che è folle. No, non ci pentiamo. Vedi [README - Ma React + Electron su un Automotive?!](README.md#-ma-react--electron-su-un-automotive-siete-pazzi) per la giustificazione completa.
+> 💡 **Hinweis zum Stack**: Ja, wir verwenden JavaScript in einem Auto. Ja, wir wissen, dass es verrückt ist. Nein, wir bereuen es nicht. Siehe [README - Aber React + Electron in einem Automotive?!](README.de.md) für die vollständige Rechtfertigung.
 
 ---
 
-## 📊 Panoramica Generale
+## 📊 Allgemeiner Überblick
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -63,7 +63,7 @@ Documentazione tecnica dell'architettura del sistema.
                    ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                    HARDWARE LAYER                            │
-│  (Raspberry Pi 4B - Sensori - Attuatori)                    │
+│  (Raspberry Pi 4B - Sensors - Actuators)                    │
 │                                                               │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
 │  │ ELM327 OBD   │  │  GPIO Pins   │  │  DS18B20     │      │
@@ -82,69 +82,69 @@ Documentazione tecnica dell'architettura del sistema.
 │  (Fiat Panda 141 - Magneti Marelli IAW 4AF)                │
 │                                                               │
 │  • OBD-II K-Line (ISO 9141-2 / ISO 14230-4)                 │
-│  • Spie luminose 12V (optoaccoppiatori)                     │
-│  • Sensore carburante (0-12V analogico)                     │
-│  • Quadro accensione (12V on/off)                           │
+│  • 12V-Warnleuchten (Optokoppler)                           │
+│  • Kraftstoffsensor (0-12V analog)                          │
+│  • Zündschloss (12V an/aus)                                 │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 🔄 Flusso Dati
+## 🔄 Datenfluss
 
-### 1. Avvio Sistema
+### 1. Systemstart
 
 ```
 1. Electron (main.js)
    ↓
-2. Avvia Server (port 3001)
+2. Server starten (Port 3001)
    ↓
-3. Avvia Client Vite (port 5173)
+3. Vite Client starten (Port 5173)
    ↓
-4. Electron carica http://localhost:5173
+4. Electron lädt http://localhost:5173
    ↓
-5. Client si connette via WebSocket a ws://localhost:3001
+5. Client verbindet via WebSocket zu ws://localhost:3001
    ↓
-6. Server inizializza servizi (GPIO, OBD, Sensori)
+6. Server initialisiert Services (GPIO, OBD, Sensors)
    ↓
-7. Sistema operativo
+7. System betriebsbereit
 ```
 
-### 2. Lettura Dati OBD
+### 2. OBD-Datenlesung
 
 ```
 ECU (Magneti Marelli)
    ↓ (K-Line ISO 9141-2)
 ELM327 Adapter
-   ↓ (Serial USB 38400 baud)
+   ↓ (Serial USB 38400 Baud)
 Raspberry Pi /dev/ttyUSB0
    ↓
 OBDCommunicationService
-   ↓ (Comandi AT / PID)
+   ↓ (AT-Befehle / PID)
 PIDParserService
-   ↓ (Parsing hex → valori)
+   ↓ (Parsing hex → Werte)
 MonitoringService
-   ↓ (Polling continuo)
+   ↓ (Kontinuierliches Polling)
 WebSocketService
    ↓ (Socket.IO emit)
 Client WebSocketService
-   ↓ (State update)
+   ↓ (State-Update)
 Valtio State
-   ↓ (React re-render)
+   ↓ (React Re-Render)
 UI Components (Tachometer, Odometer, etc.)
 ```
 
-### 3. Rilevamento Spie
+### 3. Warnleuchten-Erkennung
 
 ```
-Spia veicolo 12V
+Fahrzeugwarnleuchte 12V
    ↓
-Optoaccoppiatore (PC817)
+Optokoppler (PC817)
    ↓
-GPIO Pin (es. GPIO 17)
+GPIO-Pin (z.B. GPIO 17)
    ↓
-GPIOService (polling 100ms)
-   ↓ (debounce 50ms)
+GPIOService (Polling 100ms)
+   ↓ (Debounce 50ms)
 WebSocketService
    ↓ (Socket.IO emit)
 Client
@@ -154,14 +154,14 @@ State.warnings
 WarningLights Component
 ```
 
-### 4. Lettura Sensori
+### 4. Sensor-Auslesung
 
-#### Temperatura (DS18B20)
+#### Temperatur (DS18B20)
 ```
 DS18B20 Sensor
    ↓ (1-Wire GPIO 4)
 /sys/bus/w1/devices/28-xxx/w1_slave
-   ↓ (lettura file ogni 5s)
+   ↓ (Datei-Lesung alle 5s)
 TemperatureSensorService
    ↓
 WebSocketService
@@ -171,15 +171,15 @@ Client State
 Temperature Component
 ```
 
-#### Carburante (ADS1115)
+#### Kraftstoff (ADS1115)
 ```
-Sensore carburante veicolo (0-12V)
-   ↓ (partitore resistivo)
-ADS1115 Canale A0 (0-4V)
+Fahrzeug-Kraftstoffsensor (0-12V)
+   ↓ (Spannungsteiler)
+ADS1115 Kanal A0 (0-4V)
    ↓ (I2C 0x48)
 FuelSensorService
-   ↓ (lettura ogni 500ms)
-Calibrazione voltage → percentage
+   ↓ (Lesung alle 500ms)
+Kalibrierung Spannung → Prozent
    ↓
 WebSocketService
    ↓
@@ -190,110 +190,110 @@ Fuel Component
 
 ---
 
-## 📦 Moduli Server
+## 📦 Server-Module
 
-### OBDServer (Orchestratore Principale)
+### OBDServer (Hauptorchestrator)
 
-**File**: `server/services/OBDServer.js`
+**Datei**: `server/services/OBDServer.js`
 
-**Responsabilità**:
-- Inizializzazione e coordinamento tutti i servizi
-- Gestione ciclo di vita (start/stop/restart)
-- Retry logic per connessione OBD
-- Scansione periodica PID
-- Error handling e recovery
+**Verantwortlichkeiten**:
+- Initialisierung und Koordination aller Services
+- Verwaltung des Lebenszyklus (Start/Stop/Neustart)
+- Retry-Logik für OBD-Verbindung
+- Periodisches PID-Scanning
+- Fehlerbehandlung und Recovery
 
-**Metodi Chiave**:
+**Hauptmethoden**:
 ```javascript
-start()                    // Avvia tutti i servizi
-stop()                     // Ferma gracefully
-startWithRetry()           // Connessione OBD con retry
-scanAllPIDs()              // Scansione iniziale PID supportati
-periodicPIDScan()          // Scansione periodica (ogni 30s)
-forceReconnect()           // Riconnessione OBD
-forceRestart()             // Riavvio completo processo
+start()                    // Alle Services starten
+stop()                     // Graceful Stop
+startWithRetry()           // OBD-Verbindung mit Retry
+scanAllPIDs()              // Initiales Scannen unterstützter PIDs
+periodicPIDScan()          // Periodisches Scannen (alle 30s)
+forceReconnect()           // OBD-Wiederverbindung
+forceRestart()             // Vollständiger Prozess-Neustart
 ```
 
-**Eventi Gestiti**:
-- `SIGINT` → Shutdown graceful
-- `unhandledRejection` → Force restart
-- `uncaughtException` → Force restart
-- WebSocket `force-restart` → Force restart
+**Behandelte Events**:
+- `SIGINT` → Graceful Shutdown
+- `unhandledRejection` → Force Restart
+- `uncaughtException` → Force Restart
+- WebSocket `force-restart` → Force Restart
 
 ---
 
 ### OBDCommunicationService
 
-**File**: `server/services/OBDCommunicationService.js`
+**Datei**: `server/services/OBDCommunicationService.js`
 
-**Responsabilità**:
-- Comunicazione seriale con ELM327
-- Invio comandi AT e PID
-- Parsing risposte ELM327
-- Gestione timeout e errori
+**Verantwortlichkeiten**:
+- Serielle Kommunikation mit ELM327
+- Senden von AT- und PID-Befehlen
+- Parsen von ELM327-Antworten
+- Timeout- und Fehlerverwaltung
 
-**Configurazione**:
+**Konfiguration**:
 ```javascript
 portPath: '/dev/ttyUSB0'
 baudRate: 38400
-timeout: 4000ms (default)
+timeout: 4000ms (Standard)
 ```
 
-**Metodi Principali**:
+**Hauptmethoden**:
 ```javascript
-connect()                  // Apre porta seriale
-initialize()               // Setup ELM327 (ATZ, ATE0, etc.)
-sendCommand(cmd)           // Invia comando raw
-waitForResponse(timeout)   // Attende risposta con timeout
-readPID(pid, name)         // Legge singolo PID
-wakeupECU()                // Risveglia ECU se in sleep
-disconnect()               // Chiude porta
+connect()                  // Serielle Port öffnen
+initialize()               // ELM327-Setup (ATZ, ATE0, etc.)
+sendCommand(cmd)           // Raw-Befehl senden
+waitForResponse(timeout)   // Auf Antwort mit Timeout warten
+readPID(pid, name)         // Einzelnen PID lesen
+wakeupECU()                // ECU aufwecken falls im Sleep
+disconnect()               // Port schließen
 ```
 
-**Comandi Inizializzazione**:
+**Initialisierungs-Befehle**:
 ```javascript
-'ATZ'     // Reset ELM327
-'ATE0'    // Echo off
-'ATL0'    // Linefeeds off
-'ATS0'    // Spaces off
-'ATSP0'   // Auto protocol detection
+'ATZ'     // ELM327 zurücksetzen
+'ATE0'    // Echo aus
+'ATL0'    // Linefeeds aus
+'ATS0'    // Leerzeichen aus
+'ATSP0'   // Auto-Protokoll-Erkennung
 ```
 
 ---
 
 ### PIDParserService
 
-**File**: `server/services/PIDParserService.js`
+**Datei**: `server/services/PIDParserService.js`
 
-**Responsabilità**:
-- Definizione PID OBD-II
-- Parsing risposte hex → valori fisici
-- Formule di conversione specifiche per ECU Magneti Marelli
+**Verantwortlichkeiten**:
+- Definition der OBD-II-PIDs
+- Parsen von Hex-Antworten → physikalische Werte
+- Spezifische Umrechnungsformeln für Magneti Marelli ECU
 
-**PID Supportati**:
+**Unterstützte PIDs**:
 ```javascript
-'010C' // RPM (Giri motore)
-'010D' // Speed (Velocità)
-'0105' // Coolant Temperature (Temperatura liquido)
-'010F' // Intake Air Temperature
-'0111' // Throttle Position (Posizione acceleratore)
-'0104' // Engine Load (Carico motore)
-'010A' // Fuel Pressure
-'010B' // Intake Manifold Pressure
-'0106' // Short Term Fuel Trim
-'0107' // Long Term Fuel Trim
-'0142' // Control Module Voltage
+'010C' // RPM (Motordrehzahl)
+'010D' // Speed (Geschwindigkeit)
+'0105' // Coolant Temperature (Kühlmitteltemperatur)
+'010F' // Intake Air Temperature (Ansauglufttemperatur)
+'0111' // Throttle Position (Gaspedalstellung)
+'0104' // Engine Load (Motorlast)
+'010A' // Fuel Pressure (Kraftstoffdruck)
+'010B' // Intake Manifold Pressure (Ansaugkrümmerdruck)
+'0106' // Short Term Fuel Trim (Kurzzeit-Kraftstoffanpassung)
+'0107' // Long Term Fuel Trim (Langzeit-Kraftstoffanpassung)
+'0142' // Control Module Voltage (Steuergeräte-Spannung)
 ```
 
-**Esempio Parsing**:
+**Parsing-Beispiel**:
 ```javascript
 // PID 010C (RPM)
-// Risposta: 41 0C 1A F8
-// A=1A(hex)=26(dec), B=F8(hex)=248(dec)
+// Antwort: 41 0C 1A F8
+// A=1A(hex)=26(dez), B=F8(hex)=248(dez)
 // RPM = ((A*256)+B)/4 = (6656+248)/4 = 1726 RPM
 
 parseResponse(pid, response, name) {
-  // ... logica parsing specifica per PID
+  // ... spezifische PID-Parsing-Logik
   return {
     pid: '010C',
     name: 'Engine RPM',
@@ -310,68 +310,68 @@ parseResponse(pid, response, name) {
 
 ### MonitoringService
 
-**File**: `server/services/MonitoringService.js`
+**Datei**: `server/services/MonitoringService.js`
 
-**Responsabilità**:
-- Polling continuo PID funzionanti
-- Invio dati real-time via WebSocket
-- Watchdog per rilevare freeze/timeout
-- Gestione lista PID dinamica
+**Verantwortlichkeiten**:
+- Kontinuierliches Polling funktionierender PIDs
+- Echtzeit-Datenübertragung via WebSocket
+- Watchdog zur Erkennung von Freeze/Timeout
+- Verwaltung dynamischer PID-Liste
 
-**Configurazione**:
+**Konfiguration**:
 ```javascript
-pollingDelay: 200ms        // Delay tra letture PID
-watchdogInterval: 30s      // Controlla attività ogni 30s
-watchdogTimeout: 60s       // Timeout inattività
+pollingDelay: 200ms        // Verzögerung zwischen PID-Lesungen
+watchdogInterval: 30s      // Aktivitätsprüfung alle 30s
+watchdogTimeout: 60s       // Inaktivitäts-Timeout
 ```
 
-**Metodi**:
+**Methoden**:
 ```javascript
-startMonitoring(workingPIDs)  // Avvia polling
-stopMonitoring()              // Ferma polling
-updateWorkingPIDs(newList)    // Aggiorna PID da monitorare
-isPIDCurrentlyMonitored(key)  // Check se PID attivo
-startWatchdog()               // Avvia watchdog
+startMonitoring(workingPIDs)  // Polling starten
+stopMonitoring()              // Polling stoppen
+updateWorkingPIDs(newList)    // Zu überwachende PIDs aktualisieren
+isPIDCurrentlyMonitored(key)  // Prüfen ob PID aktiv
+startWatchdog()               // Watchdog starten
 ```
 
-**Flusso Monitoring**:
+**Monitoring-Ablauf**:
 ```javascript
-Loop infinito:
-  Per ogni PID in workingPIDs:
-    1. Leggi PID da ECU
-    2. Emetti dato via WebSocket
-    3. Attendi 200ms
-  Ripeti
+Endlosschleife:
+  Für jeden PID in workingPIDs:
+    1. PID vom ECU lesen
+    2. Daten via WebSocket senden
+    3. 200ms warten
+  Wiederholen
 ```
 
 ---
 
 ### GPIOService
 
-**File**: `server/services/GPIOService.js`
+**Datei**: `server/services/GPIOService.js`
 
-**Responsabilità**:
-- Inizializzazione pin GPIO
-- Polling stato spie veicolo
-- Debouncing segnali
-- Emissione eventi cambio stato
+**Verantwortlichkeiten**:
+- GPIO-Pin-Initialisierung
+- Polling des Warnleuchten-Status
+- Signal-Debouncing
+- Events bei Statusänderung senden
 
-**Configurazione**:
+**Konfiguration**:
 ```javascript
-pollingInterval: 100ms     // Frequenza lettura GPIO
-debounceTime: 50ms         // Anti-rimbalzo
+pollingInterval: 100ms     // GPIO-Lesefrequenz
+debounceTime: 50ms         // Entprellung
 ```
 
-**Metodi**:
+**Methoden**:
 ```javascript
-initializeGPIO()           // Setup tutti i pin
-startPolling()             // Avvia polling GPIO
-stopPolling()              // Ferma polling
-readGPIOState(pin)         // Legge singolo pin
-cleanup()                  // Libera risorse GPIO
+initializeGPIO()           // Alle Pins einrichten
+startPolling()             // GPIO-Polling starten
+stopPolling()              // Polling stoppen
+readGPIOState(pin)         // Einzelnen Pin lesen
+cleanup()                  // GPIO-Ressourcen freigeben
 ```
 
-**Algoritmo Debouncing**:
+**Debouncing-Algorithmus**:
 ```javascript
 lastStableState[pin] = null
 lastReadTime[pin] = 0
@@ -382,7 +382,7 @@ onPoll():
   
   if (currentState != lastStableState[pin]):
     if (now - lastReadTime[pin] > debounceTime):
-      // Stato cambiato e stabile per >50ms
+      // Status geändert und stabil für >50ms
       lastStableState[pin] = currentState
       emitStateChange(pin, currentState)
   
@@ -393,14 +393,14 @@ onPoll():
 
 ### IgnitionService
 
-**File**: `server/services/IgnitionService.js`
+**Datei**: `server/services/IgnitionService.js`
 
-**Responsabilità**:
-- Monitoraggio stato quadro accensione
-- Esecuzione script power-saving
-- Gestione transizioni ON/OFF
+**Verantwortlichkeiten**:
+- Überwachung des Zündschloss-Status
+- Ausführung von Power-Saving-Skripten
+- Verwaltung von ON/OFF-Übergängen
 
-**Configurazione** (da `gpio-mapping.js`):
+**Konfiguration** (aus `gpio-mapping.js`):
 ```javascript
 ignition: {
   enabled: true,
@@ -413,148 +413,148 @@ ignition: {
 }
 ```
 
-**Stati**:
+**Zustände**:
 ```javascript
-'ON'   // Quadro acceso
-'OFF'  // Quadro spento
-null   // Stato iniziale/sconosciuto
+'ON'   // Zündung an
+'OFF'  // Zündung aus
+null   // Initial/Unbekannt
 ```
 
-**Flusso**:
+**Ablauf**:
 ```javascript
-GPIO 21 cambia:
-  Leggi nuovo stato
+GPIO 21 ändert sich:
+  Neuen Status lesen
   
-  Se transizione OFF→ON:
-    Esegui wake.sh
-    Emetti 'ignition:on' via WebSocket
+  Falls Übergang OFF→ON:
+    wake.sh ausführen
+    'ignition:on' via WebSocket senden
   
-  Se transizione ON→OFF:
-    Esegui low-power.sh
-    Emetti 'ignition:off' via WebSocket
+  Falls Übergang ON→OFF:
+    low-power.sh ausführen
+    'ignition:off' via WebSocket senden
 ```
 
 ---
 
 ### TemperatureSensorService
 
-**File**: `server/services/TemperatureSensorService.js`
+**Datei**: `server/services/TemperatureSensorService.js`
 
-**Responsabilità**:
-- Lettura sensore DS18B20 via 1-Wire
-- Parsing file sysfs
-- Invio dati temperatura via WebSocket
+**Verantwortlichkeiten**:
+- DS18B20-Sensor via 1-Wire lesen
+- Sysfs-Datei parsen
+- Temperaturdaten via WebSocket senden
 
-**Path Lettura**:
+**Lesepfad**:
 ```
 /sys/bus/w1/devices/28-xxxxxxxxxxxx/w1_slave
 ```
 
-**Formato Lettura**:
+**Leseformat**:
 ```
 7d 01 4b 46 7f ff 0c 10 57 : crc=57 YES
 7d 01 4b 46 7f ff 0c 10 57 t=23812
                              ^^^^^^
-                             23.812°C (valore raw)
+                             23.812°C (Rohwert)
 ```
 
 **Parsing**:
 ```javascript
 readTemperature():
-  1. Leggi file w1_slave
-  2. Cerca pattern "t=XXXXX"
-  3. Estrai valore (es. 23812)
-  4. Converti: 23812 / 1000 = 23.8°C
-  5. Emetti via WebSocket
+  1. w1_slave-Datei lesen
+  2. Nach Muster "t=XXXXX" suchen
+  3. Wert extrahieren (z.B. 23812)
+  4. Umrechnen: 23812 / 1000 = 23.8°C
+  5. Via WebSocket senden
 ```
 
 ---
 
 ### FuelSensorService
 
-**File**: `server/services/FuelSensorService.js`
+**Datei**: `server/services/FuelSensorService.js`
 
-**Responsabilità**:
-- Lettura ADC ADS1115 via I2C
-- Conversione tensione → percentuale carburante
-- Applicazione calibrazione
-- Invio dati via WebSocket
+**Verantwortlichkeiten**:
+- ADC ADS1115 via I2C lesen
+- Umrechnung Spannung → Kraftstoffprozent
+- Kalibrierung anwenden
+- Daten via WebSocket senden
 
-**Algoritmo**:
+**Algorithmus**:
 ```javascript
 readFuelLevel():
-  1. Leggi tensione da ADS1115 canale A0
-  2. Applica correzione partitore:
-     V_reale = V_misurata × ((R1+R2)/R2)
-  3. Applica calibrazione:
-     percentage = ((V_reale - V_empty) / (V_full - V_empty)) × 100
-  4. Clamp tra 0-100%
-  5. Emetti via WebSocket
+  1. Spannung von ADS1115 Kanal A0 lesen
+  2. Spannungsteiler-Korrektur anwenden:
+     V_real = V_measured × ((R1+R2)/R2)
+  3. Kalibrierung anwenden:
+     percentage = ((V_real - V_empty) / (V_full - V_empty)) × 100
+  4. Zwischen 0-100% begrenzen
+  5. Via WebSocket senden
 ```
 
-**Esempio**:
+**Beispiel**:
 ```javascript
-V_misurata = 2.5V
-Partitore: R1=100kΩ, R2=33kΩ
-Calibrazione: V_empty=0.5V, V_full=4.0V
+V_measured = 2.5V
+Spannungsteiler: R1=100kΩ, R2=33kΩ
+Kalibrierung: V_empty=0.5V, V_full=4.0V
 
-V_reale = 2.5 × (133/33) = 10.08V
+V_real = 2.5 × (133/33) = 10.08V
 percentage = ((10.08 - 0.5) / (4.0 - 0.5)) × 100
            = (9.58 / 3.5) × 100
-           = 273.7% → clamp → 100%
+           = 273.7% → begrenzt → 100%
 ```
 
 ---
 
 ### WebSocketService (Server)
 
-**File**: `server/services/WebSocketService.js`
+**Datei**: `server/services/WebSocketService.js`
 
-**Responsabilità**:
-- Gestione connessioni Socket.IO
-- Broadcasting eventi a tutti i client
-- Gestione namespace e rooms (future)
+**Verantwortlichkeiten**:
+- Verwaltung von Socket.IO-Verbindungen
+- Broadcasting von Events an alle Clients
+- Verwaltung von Namespaces und Rooms (zukünftig)
 
-**Eventi Emessi**:
+**Gesendete Events**:
 ```javascript
-'status'           // Stato server/connessione OBD
-'obd:data'         // Dati singolo PID
-'obd:scan'         // Risultati scansione PID
-'gpio:warning'     // Cambio stato spia
-'sensor:temp'      // Temperatura esterna
-'sensor:fuel'      // Livello carburante
-'ignition:on'      // Quadro acceso
-'ignition:off'     // Quadro spento
-'error'            // Errore generico
+'status'           // Server-/OBD-Verbindungsstatus
+'obd:data'         // Einzelne PID-Daten
+'obd:scan'         // PID-Scan-Ergebnisse
+'gpio:warning'     // Warnleuchten-Statusänderung
+'sensor:temp'      // Außentemperatur
+'sensor:fuel'      // Kraftstoffstand
+'ignition:on'      // Zündung an
+'ignition:off'     // Zündung aus
+'error'            // Allgemeiner Fehler
 ```
 
-**Eventi Ricevuti**:
+**Empfangene Events**:
 ```javascript
-'force-restart'    // Client richiede restart server
+'force-restart'    // Client fordert Server-Neustart an
 ```
 
-**Metodi**:
+**Methoden**:
 ```javascript
-emitStatus(data)           // Invia stato
-emitOBDData(data)          // Invia dato PID
-emitWarning(key, state)    // Invia stato spia
-emitTemperature(temp)      // Invia temperatura
-emitFuelLevel(level)       // Invia carburante
-emitIgnitionState(state)   // Invia stato quadro
+emitStatus(data)           // Status senden
+emitOBDData(data)          // PID-Daten senden
+emitWarning(key, state)    // Warnleuchten-Status senden
+emitTemperature(temp)      // Temperatur senden
+emitFuelLevel(level)       // Kraftstoffstand senden
+emitIgnitionState(state)   // Zündungs-Status senden
 ```
 
 ---
 
-## 🎨 Moduli Client
+## 🎨 Client-Module
 
 ### State Management (Valtio)
 
-**File**: `client/src/store/state.tsx`
+**Datei**: `client/src/store/state.tsx`
 
-**Store Globale**:
+**Globaler Store**:
 ```typescript
 export const state = proxy({
-  // Dati OBD
+  // OBD-Daten
   obd: {
     rpm: 0,
     speed: 0,
@@ -562,26 +562,26 @@ export const state = proxy({
     intakeTemp: 0,
     throttle: 0,
     engineLoad: 0,
-    // ... altri PID
+    // ... weitere PIDs
   },
   
-  // Spie veicolo
+  // Fahrzeug-Warnleuchten
   warnings: {
     highBeam: false,
     lowBeam: false,
     turnSignals: false,
     battery: false,
     engineOil: false,
-    // ... altre spie
+    // ... weitere Warnleuchten
   },
   
-  // Sensori
+  // Sensoren
   sensors: {
     temperature: null,
     fuel: null,
   },
   
-  // Sistema
+  // System
   system: {
     connected: false,
     ignition: null,
@@ -589,7 +589,7 @@ export const state = proxy({
 })
 ```
 
-**Utilizzo nei Componenti**:
+**Verwendung in Komponenten**:
 ```typescript
 function Tachometer() {
   const snap = useSnapshot(state);
@@ -603,20 +603,20 @@ function Tachometer() {
 
 ### WebSocketService (Client)
 
-**File**: `client/src/services/WebSocketService.ts`
+**Datei**: `client/src/services/WebSocketService.ts`
 
-**Modalità Operazione**:
+**Betriebsmodi**:
 ```typescript
 1. Mock Mode (websocket.mock = true)
-   → MockAnimationService genera dati simulati
-   → Nessuna connessione Socket.IO
+   → MockAnimationService generiert simulierte Daten
+   → Keine Socket.IO-Verbindung
 
 2. Real Mode (websocket.mock = false)
-   → Connessione Socket.IO a server
-   → Dati reali da hardware
+   → Socket.IO-Verbindung zum Server
+   → Echte Daten von Hardware
 ```
 
-**Eventi Ascoltati**:
+**Empfangene Events**:
 ```typescript
 socket.on('status', handleStatus)
 socket.on('obd:data', handleOBDData)
@@ -627,17 +627,17 @@ socket.on('ignition:on', handleIgnitionOn)
 socket.on('ignition:off', handleIgnitionOff)
 ```
 
-**Handlers**:
+**Handler**:
 ```typescript
 handleOBDData(data) {
-  // Aggiorna state.obd con nuovi valori PID
+  // state.obd mit neuen PID-Werten aktualisieren
   state.obd.rpm = data.parameters.rpm?.value || 0;
   state.obd.speed = data.parameters.speed?.value || 0;
   // ...
 }
 
 handleWarning(data) {
-  // Aggiorna state.warnings
+  // state.warnings aktualisieren
   state.warnings[data.key] = data.state;
 }
 ```
@@ -646,33 +646,33 @@ handleWarning(data) {
 
 ### MockAnimationService
 
-**File**: `client/src/services/MockAnimationService.ts`
+**Datei**: `client/src/services/MockAnimationService.ts`
 
-**Responsabilità**:
-- Simulazione dati realistici per sviluppo
-- Animazioni fluide RPM/velocità
-- Cicli accensione/spegnimento spie
+**Verantwortlichkeiten**:
+- Simulation realistischer Daten für Entwicklung
+- Flüssige RPM/Geschwindigkeitsanimationen
+- Warnleuchten-Ein-/Ausschalt-Zyklen
 
-**Animazioni**:
+**Animationen**:
 ```typescript
-// RPM: 800 (idle) ↔ 5500 (redline)
+// RPM: 800 (Leerlauf) ↔ 5500 (Drehzahlbegrenzung)
 rpm: Math.sin(t * 0.5) * 2000 + 2500
 
-// Velocità: 0 ↔ 120 km/h
+// Geschwindigkeit: 0 ↔ 120 km/h
 speed: Math.abs(Math.sin(t * 0.3)) * 120
 
-// Spie: Toggle casuale ogni 3-5 secondi
+// Warnleuchten: Zufälliger Toggle alle 3-5 Sekunden
 warnings.turnSignals = Math.random() > 0.8
 ```
 
 ---
 
-## 🔐 Sicurezza e Permessi
+## 🔐 Sicherheit und Berechtigungen
 
-### Permessi Utente Richiesti
+### Erforderliche Benutzerberechtigungen
 
 ```bash
-# Porta seriale
+# Serielle Schnittstelle
 sudo usermod -a -G dialout $USER
 
 # GPIO
@@ -682,24 +682,24 @@ sudo usermod -a -G gpio $USER
 sudo usermod -a -G i2c $USER
 ```
 
-### Script Ignition (Low-Power / Wake)
+### Ignition-Skripte (Low-Power / Wake)
 
-Gli script vengono eseguiti con permessi utente corrente.  
-Per operazioni privilegiate (es. shutdown):
+Die Skripte werden mit den Berechtigungen des aktuellen Benutzers ausgeführt.  
+Für privilegierte Operationen (z.B. Shutdown):
 
 ```bash
-# Configura sudo NOPASSWD per comandi specifici
+# Sudo NOPASSWD für spezifische Befehle konfigurieren
 sudo visudo
 
-# Aggiungi:
+# Hinzufügen:
 pi ALL=(ALL) NOPASSWD: /sbin/shutdown
 ```
 
-### WebSocket Security
+### WebSocket-Sicherheit
 
-Attualmente Socket.IO è **non autenticato**.
+Derzeit ist Socket.IO **nicht authentifiziert**.
 
-**Per produzione**, considera:
+**Für Produktion** sollten Sie in Betracht ziehen:
 ```javascript
 // Server
 io.use((socket, next) => {
@@ -721,30 +721,30 @@ const socket = io(url, {
 
 ## 🧪 Testing
 
-### Test Locale (Mock Mode)
+### Lokaler Test (Mock-Modus)
 
 ```bash
 cd client
 npm run dev
 ```
 
-Imposta `websocket.mock = true` in `environment.ts`
+In `environment.ts` einstellen: `websocket.mock = true`
 
-### Test Integrazione (con Server)
+### Integrationstest (mit Server)
 
 ```bash
-# Terminale 1 (Raspberry Pi o locale)
+# Terminal 1 (Raspberry Pi oder lokal)
 cd server
 node server.js
 
-# Terminale 2
+# Terminal 2
 cd client
 npm run dev
 ```
 
-Imposta `websocket.mock = false` in `environment.ts`
+In `environment.ts` einstellen: `websocket.mock = false`
 
-### Test Electron
+### Electron-Test
 
 ```bash
 npm start
@@ -754,33 +754,33 @@ npm start
 
 ## 📈 Performance
 
-### Ottimizzazioni Implementate
+### Implementierte Optimierungen
 
-1. **Debouncing GPIO**: Riduce chiamate spurie (50ms)
-2. **Polling OBD ottimizzato**: 200ms tra PID (bilanciato)
-3. **Lazy loading componenti**: React.lazy() per code-splitting
-4. **Memoizzazione**: useMemo() per calcoli pesanti
-5. **Virtualizzazione liste**: Per log e dati estesi
+1. **GPIO-Debouncing**: Reduziert Störimpulse (50ms)
+2. **Optimiertes OBD-Polling**: 200ms zwischen PIDs (ausgewogen)
+3. **Lazy Loading Components**: React.lazy() für Code-Splitting
+4. **Memoization**: useMemo() für rechenintensive Operationen
+5. **Listen-Virtualisierung**: Für Logs und erweiterte Daten
 
-### Metriche Target
+### Zielmetriken
 
-- **Latency OBD→UI**: <500ms
-- **GPIO Response**: <100ms
-- **Frame rate UI**: 60 FPS
-- **Memoria Raspberry**: <200MB server + <500MB Electron
+- **Latenz OBD→UI**: <500ms
+- **GPIO-Antwort**: <100ms
+- **UI-Framerate**: 60 FPS
+- **Raspberry-Speicher**: <200MB Server + <500MB Electron
 
 ---
 
-## 🔄 Estendibilità
+## 🔄 Erweiterbarkeit
 
-### Aggiungere Nuovo PID OBD
+### Neuen OBD-PID hinzufügen
 
-1. Aggiungi definizione in `PIDParserService.js`:
+1. Definition in `PIDParserService.js` hinzufügen:
 
 ```javascript
 getPIDDefinitions() {
   return [
-    // ... existing
+    // ... bestehende
     {
       pid: '0143',
       name: 'Absolute Load Value',
@@ -790,7 +790,7 @@ getPIDDefinitions() {
 }
 ```
 
-2. Aggiungi parsing in `parseResponse()`:
+2. Parsing in `parseResponse()` hinzufügen:
 
 ```javascript
 if (pid === '0143') {
@@ -803,50 +803,50 @@ if (pid === '0143') {
 }
 ```
 
-3. Aggiorna `state.tsx` client:
+3. `state.tsx` Client aktualisieren:
 
 ```typescript
 obd: {
-  // ... existing
+  // ... bestehende
   absoluteLoad: 0
 }
 ```
 
-### Aggiungere Nuova Spia GPIO
+### Neue GPIO-Warnleuchte hinzufügen
 
-1. Cabla optoaccoppiatore al pin desiderato (es. GPIO 26)
+1. Optokoppler an gewünschten Pin verkabeln (z.B. GPIO 26)
 
-2. Aggiungi mapping in `gpio-mapping.js`:
+2. Mapping in `gpio-mapping.js` hinzufügen:
 
 ```javascript
 mapping: {
-  // ... existing
+  // ... bestehende
   customWarning: {
     pin: 26,
-    name: 'Avviso Custom',
-    description: 'Descrizione spia custom'
+    name: 'Custom-Warnung',
+    description: 'Beschreibung der Custom-Warnleuchte'
   }
 }
 ```
 
-3. Aggiorna `state.tsx` client:
+3. `state.tsx` Client aktualisieren:
 
 ```typescript
 warnings: {
-  // ... existing
+  // ... bestehende
   customWarning: false
 }
 ```
 
-4. Aggiungi componente visuale in `WarningLights.tsx`
+4. Visuelle Komponente in `WarningLights.tsx` hinzufügen
 
-### Aggiungere Nuovo Sensore
+### Neuen Sensor hinzufügen
 
-Esempio: Pressione atmosferica BMP280
+Beispiel: Luftdruck BMP280
 
-1. Installa libreria: `npm install i2c-bus bmp280-sensor`
+1. Bibliothek installieren: `npm install i2c-bus bmp280-sensor`
 
-2. Crea servizio: `server/services/PressureSensorService.js`
+2. Service erstellen: `server/services/PressureSensorService.js`
 
 ```javascript
 const BMP280 = require('bmp280-sensor');
@@ -878,7 +878,7 @@ class PressureSensorService {
 }
 ```
 
-3. Integra in `OBDServer.js`:
+3. In `OBDServer.js` integrieren:
 
 ```javascript
 this.pressureService = new PressureSensorService(this.webSocketService);
@@ -886,31 +886,30 @@ await this.pressureService.initialize();
 this.pressureService.startReading();
 ```
 
-4. Aggiungi handling nel client `WebSocketService.ts`
+4. Handling im Client `WebSocketService.ts` hinzufügen
 
 ---
 
-## 📚 Riferimenti Codice
+## 📚 Code-Referenzen
 
-### File Principali
+### Hauptdateien
 
-| Componente | Path | Righe | Responsabilità |
-|------------|------|-------|----------------|
+| Komponente | Pfad | Zeilen | Verantwortlichkeit |
+|------------|------|--------|-------------------|
 | **Server** |
-| OBDServer | `server/services/OBDServer.js` | 418 | Orchestrazione |
-| OBDComm | `server/services/OBDCommunicationService.js` | 220 | Comunicazione ELM327 |
-| PIDParser | `server/services/PIDParserService.js` | ~300 | Parsing PID |
-| Monitoring | `server/services/MonitoringService.js` | ~200 | Polling OBD |
-| GPIO | `server/services/GPIOService.js` | ~150 | Gestione GPIO |
-| Ignition | `server/services/IgnitionService.js` | ~100 | Power management |
-| WebSocket | `server/services/WebSocketService.js` | ~100 | Comunicazione |
+| OBDServer | `server/services/OBDServer.js` | 418 | Orchestrierung |
+| OBDComm | `server/services/OBDCommunicationService.js` | 220 | ELM327-Kommunikation |
+| PIDParser | `server/services/PIDParserService.js` | ~300 | PID-Parsing |
+| Monitoring | `server/services/MonitoringService.js` | ~200 | OBD-Polling |
+| GPIO | `server/services/GPIOService.js` | ~150 | GPIO-Verwaltung |
+| Ignition | `server/services/IgnitionService.js` | ~100 | Power-Management |
+| WebSocket | `server/services/WebSocketService.js` | ~100 | Kommunikation |
 | **Client** |
-| App | `client/src/App.tsx` | 83 | Entry point |
-| State | `client/src/store/state.tsx` | ~150 | State management |
-| WebSocket | `client/src/services/WebSocketService.ts` | ~200 | Connessione server |
-| Cockpit | `client/src/routes/Cockpit/Cockpit.tsx` | ~300 | Dashboard principale |
+| App | `client/src/App.tsx` | 83 | Einstiegspunkt |
+| State | `client/src/store/state.tsx` | ~150 | State-Management |
+| WebSocket | `client/src/services/WebSocketService.ts` | ~200 | Server-Verbindung |
+| Cockpit | `client/src/routes/Cockpit/Cockpit.tsx` | ~300 | Haupt-Dashboard |
 
 ---
 
-**Ultimo aggiornamento**: v0.9.0
-
+**Zuletzt aktualisiert**: v0.9.0

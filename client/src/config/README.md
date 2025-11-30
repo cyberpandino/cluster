@@ -1,3 +1,7 @@
+[🇬🇧 English](README.en.md) | [🇮🇹 Italiano](README.md) | [🇩🇪 Deutsch](README.de.md)
+
+---
+
 # Configurazione Environment
 
 Configurazione centralizzata dell'applicazione PandaOS Cockpit.

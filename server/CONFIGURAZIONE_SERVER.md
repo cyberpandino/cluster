@@ -1,3 +1,7 @@
+[🇬🇧 English](CONFIGURAZIONE_SERVER.en.md) | [🇮🇹 Italiano](CONFIGURAZIONE_SERVER.md) | [🇩🇪 Deutsch](CONFIGURAZIONE_SERVER.de.md)
+
+---
+
 # 🔧 Configurazione Server - PandaOS Cluster
 
 Guida completa alla configurazione hardware e software del server backend.

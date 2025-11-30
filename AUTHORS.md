@@ -1,3 +1,7 @@
+[🇬🇧 English](AUTHORS.en.md) | [🇮🇹 Italiano](AUTHORS.md) | [🇩🇪 Deutsch](AUTHORS.de.md)
+
+---
+
 # Autori e Contributori
 
 ## Team Principale
