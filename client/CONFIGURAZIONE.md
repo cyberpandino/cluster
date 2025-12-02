@@ -1,3 +1,7 @@
+[🇬🇧 English](CONFIGURAZIONE.en.md) | [🇮🇹 Italiano](CONFIGURAZIONE.md) | [🇩🇪 Deutsch](CONFIGURAZIONE.de.md)
+
+---
+
 # ⚙️ Configurazione Client - PandaOS Cluster
 
 Guida completa alla configurazione del client Cyberpandino.

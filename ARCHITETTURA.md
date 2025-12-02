@@ -1,3 +1,7 @@
+[🇬🇧 English](ARCHITETTURA.en.md) | [🇮🇹 Italiano](ARCHITETTURA.md) | [🇩🇪 Deutsch](ARCHITETTURA.de.md)
+
+---
+
 # 🏗️ Architettura - PandaOS Cluster
 
 Documentazione tecnica dell'architettura del sistema.

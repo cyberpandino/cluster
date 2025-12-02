@@ -1,3 +1,7 @@
+[🇬🇧 English](HARDWARE.en.md) | [🇮🇹 Italiano](HARDWARE.md) | [🇩🇪 Deutsch](HARDWARE.de.md)
+
+---
+
 # 🛒 Hardware Necessario - PandaOS Cluster
 
 Lista completa dei componenti hardware necessari per realizzare il progetto PandaOS.

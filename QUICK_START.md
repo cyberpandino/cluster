@@ -1,3 +1,7 @@
+[🇬🇧 English](QUICK_START.en.md) | [🇮🇹 Italiano](QUICK_START.md) | [🇩🇪 Deutsch](QUICK_START.de.md)
+
+---
+
 # ⚡ Quick Start - PandaOS Cluster
 
 Guida rapida per iniziare in 5 minuti.

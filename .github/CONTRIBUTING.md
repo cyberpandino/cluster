@@ -1,3 +1,7 @@
+[🇬🇧 English](CONTRIBUTING.en.md) | [🇮🇹 Italiano](CONTRIBUTING.md) | [🇩🇪 Deutsch](CONTRIBUTING.de.md)
+
+---
+
 # 🤝 Contribuire a PandaOS
 
 Grazie per l'interesse nel contribuire a PandaOS! Ogni contributo è benvenuto, che si tratti di codice, documentazione, bug report o suggerimenti.

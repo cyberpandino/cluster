@@ -1,3 +1,7 @@
+[🇬🇧 English](ROADMAP.en.md) | [🇮🇹 Italiano](ROADMAP.md) | [🇩🇪 Deutsch](ROADMAP.de.md)
+
+---
+
 # 🗺️ Roadmap & Wishlist - PandaOS Cluster
 
 Feature e miglioramenti che vorremmo implementare nel progetto.
