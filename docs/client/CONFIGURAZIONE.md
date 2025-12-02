@@ -1,3 +1,7 @@
+[🇬🇧 English](CONFIGURAZIONE.en.md) | [🇮🇹 Italiano](CONFIGURAZIONE.md) | [🇩🇪 Deutsch](CONFIGURAZIONE.de.md)
+
+---
+
 # ⚙️ Configurazione Client - PandaOS Cluster
 
 Guida completa alla configurazione del client Cyberpandino.
@@ -400,8 +404,8 @@ npm start
 
 - **Codice sorgente**: `client/src/config/environment.ts`
 - **Tipi TypeScript**: `client/src/config/types.ts`
-- **Documentazione principale**: `README.md`
-- **Configurazione server**: `server/CONFIGURAZIONE_SERVER.md`
+- **Documentazione principale**: [README.md](../../README.md)
+- **Configurazione server**: [CONFIGURAZIONE_SERVER.md](../server/CONFIGURAZIONE_SERVER.md)
 
 ---
 

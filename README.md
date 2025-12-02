@@ -1,3 +1,7 @@
+[🇬🇧 English](docs/README.en.md) | [🇮🇹 Italiano](README.md) | [🇩🇪 Deutsch](docs/README.de.md)
+
+---
+
 # 🚗 Cyberpandino Cluster - PandaOS
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
@@ -40,7 +44,7 @@ Il cluster digitale sostituisce completamente il quadro strumenti analogico orig
 
 ### 🗺️ Feature Future
 
-Scopri cosa stiamo pianificando: [Roadmap & Wishlist](ROADMAP.md)
+Scopri cosa stiamo pianificando: [Roadmap & Wishlist](docs/ROADMAP.md)
 
 Alcune idee in lista:
 - 📹 Retrocamera e sensori parcheggio
@@ -57,22 +61,22 @@ Vuoi contribuire? Ogni aiuto è benvenuto! Vedi la [guida per contribuire](.gith
 ## 📚 Indice della Documentazione
 
 ### 🚀 Inizia Qui
-- **[Quick Start](QUICK_START.md)** - Guida rapida per iniziare subito
-- **[Hardware](HARDWARE.md)** - Lista completa componenti e schema di montaggio
+- **[Quick Start](docs/QUICK_START.md)** - Guida rapida per iniziare subito
+- **[Hardware](docs/HARDWARE.md)** - Lista completa componenti e schema di montaggio
 
 ### 📖 Documentazione Tecnica
-- **[Architettura](ARCHITETTURA.md)** - Architettura dettagliata del sistema
-- **[Documentazione Generale](DOCUMENTAZIONE.md)** - Overview completa del progetto
-- **[Configurazione Client](client/CONFIGURAZIONE.md)** - Setup e configurazione frontend
-- **[Configurazione Server](server/CONFIGURAZIONE_SERVER.md)** - Setup e configurazione backend
-- **[Configurazione Environment](client/src/config/README.md)** - Variabili d'ambiente e parametri
+- **[Architettura](docs/ARCHITETTURA.md)** - Architettura dettagliata del sistema
+- **[Documentazione Generale](docs/DOCUMENTAZIONE.md)** - Overview completa del progetto
+- **[Configurazione Client](docs/client/CONFIGURAZIONE.md)** - Setup e configurazione frontend
+- **[Configurazione Server](docs/server/CONFIGURAZIONE_SERVER.md)** - Setup e configurazione backend
+- **[Configurazione Environment](docs/client/config/README.md)** - Variabili d'ambiente e parametri
 
 ### 🤝 Contribuzione
 - **[Come Contribuire](.github/CONTRIBUTING.md)** - Guida completa per contribuire al progetto
 
 ### 📋 Altro
-- **[Roadmap](ROADMAP.md)** - Piano di sviluppo e wishlist
-- **[Autori](AUTHORS.md)** - Chi ha contribuito al progetto
+- **[Roadmap](docs/ROADMAP.md)** - Piano di sviluppo e wishlist
+- **[Autori](docs/AUTHORS.md)** - Chi ha contribuito al progetto
 - **[Licenza](LICENSE)** - GNU General Public License v3.0
 
 ---
@@ -165,7 +169,7 @@ npm --version   # >= 9.0.0
 git --version   # >= 2.0.0
 ```
 
-⚠️ **Raspberry Pi**: Non usare `apt install nodejs` (versione obsoleta). Vedi [CONFIGURAZIONE_SERVER.md](server/CONFIGURAZIONE_SERVER.md#2-installazione-nodejs-e-npm) per NodeSource/nvm.
+⚠️ **Raspberry Pi**: Non usare `apt install nodejs` (versione obsoleta). Vedi [CONFIGURAZIONE_SERVER.md](docs/server/CONFIGURAZIONE_SERVER.md#2-installazione-nodejs-e-npm) per NodeSource/nvm.
 
 ---
 
@@ -180,16 +184,16 @@ git --version   # >= 2.0.0
   - Convertitore ADC ADS1115 (opzionale, per sensore carburante)
   
   > **Raspberry Pi 3 Model B+**: Funziona in modalità Headless (solo server)  
-📋 **Lista completa hardware**: Vedi [HARDWARE.md](HARDWARE.md) per dettagli su tutti i componenti necessari
+📋 **Lista completa hardware**: Vedi [HARDWARE.md](docs/HARDWARE.md) per dettagli su tutti i componenti necessari
 
 - **Sistema Operativo**:
   - Raspberry Pi OS Lite (64-bit) - Debian-based consigliato
   - Boot time: ~30s (ottimizzabile a ~20s, o istantaneo con modalità standby)
   - Architettura ARM/ARM64
   
-  > 📘 **Scelta OS e Boot Time**: Vedi [CONFIGURAZIONE_SERVER.md](server/CONFIGURAZIONE_SERVER.md#1-installazione-sistema-operativo) per dettagli su come scegliere la distro giusta, ottimizzare il boot time e configurare la modalità **standby sempre acceso** (consumo trascurabile, avvio istantaneo)
+  > 📘 **Scelta OS e Boot Time**: Vedi [CONFIGURAZIONE_SERVER.md](docs/server/CONFIGURAZIONE_SERVER.md#1-installazione-sistema-operativo) per dettagli su come scegliere la distro giusta, ottimizzare il boot time e configurare la modalità **standby sempre acceso** (consumo trascurabile, avvio istantaneo)
 
-- **Software**: Vedi [CONFIGURAZIONE_SERVER.md](server/CONFIGURAZIONE_SERVER.md#2-installazione-nodejs-e-npm) per istruzioni installazione su Raspberry Pi
+- **Software**: Vedi [CONFIGURAZIONE_SERVER.md](docs/server/CONFIGURAZIONE_SERVER.md#2-installazione-nodejs-e-npm) per istruzioni installazione su Raspberry Pi
 
 ### Per Sviluppo Locale (Mac/Windows/Linux)
 
@@ -825,5 +829,5 @@ PandaOS è sviluppato e mantenuto da:
 - **[Roberto Zaccardi](https://github.com/rzaccardi)**
 - **[Ludovico Verde](https://www.instagram.com/ludovico.verdee/)**
 
-Vedi [AUTHORS](AUTHORS.md) per la lista completa e dettagli sui contributori.
+Vedi [AUTHORS](docs/AUTHORS.md) per la lista completa e dettagli sui contributori.
 

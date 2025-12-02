@@ -1,8 +1,12 @@
+[🇬🇧 English](HARDWARE.en.md) | [🇮🇹 Italiano](HARDWARE.md) | [🇩🇪 Deutsch](HARDWARE.de.md)
+
+---
+
 # 🛒 Hardware Necessario - PandaOS Cluster
 
 Lista completa dei componenti hardware necessari per realizzare il progetto PandaOS.
 
-> ⚠️ **ATTENZIONE**: Questa lista è fornita solo a scopo informativo. Acquista e installa hardware solo se hai competenze tecniche adeguate. Vedi il [Disclaimer](README.md#️-disclaimer).
+> ⚠️ **ATTENZIONE**: Questa lista è fornita solo a scopo informativo. Acquista e installa hardware solo se hai competenze tecniche adeguate. Vedi il [Disclaimer](../README.md#️-disclaimer).
 
 ---
 
@@ -547,7 +551,7 @@ L'acquisto e l'installazione di hardware è sotto la tua completa responsabilit�
 - ✅ Verificare polarità prima di collegare alimentazioni
 - ✅ Non bypassare MAI le protezioni (fusibili, diodi)
 
-Vedi il [Disclaimer completo](README.md#️-disclaimer) per maggiori informazioni.
+Vedi il [Disclaimer completo](../README.md#️-disclaimer) per maggiori informazioni.
 
 ---
 

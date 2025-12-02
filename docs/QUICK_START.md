@@ -1,8 +1,12 @@
+[🇬🇧 English](QUICK_START.en.md) | [🇮🇹 Italiano](QUICK_START.md) | [🇩🇪 Deutsch](QUICK_START.de.md)
+
+---
+
 # ⚡ Quick Start - PandaOS Cluster
 
 Guida rapida per iniziare in 5 minuti.
 
-> ⚠️ **ATTENZIONE**: PandaOS è un progetto sperimentale hobbistico. L'installazione su veicoli reali è a tuo rischio e pericolo. Leggi il [Disclaimer completo](README.md#️-disclaimer) prima di procedere.
+> ⚠️ **ATTENZIONE**: PandaOS è un progetto sperimentale hobbistico. L'installazione su veicoli reali è a tuo rischio e pericolo. Leggi il [Disclaimer completo](../README.md#️-disclaimer) prima di procedere.
 
 ---
 
@@ -184,7 +188,7 @@ sudo usermod -a -G gpio $USER
 
 ## 📚 Documentazione Completa
 
-- **[README.md](README.md)** → Documentazione principale completa
+- **[README.md](../README.md)** → Documentazione principale completa
 - **[client/CONFIGURAZIONE.md](client/CONFIGURAZIONE.md)** → Configurazione client dettagliata
 - **[server/CONFIGURAZIONE_SERVER.md](server/CONFIGURAZIONE_SERVER.md)** → Setup hardware e server
 - **[ARCHITETTURA.md](ARCHITETTURA.md)** → Architettura sistema
@@ -206,7 +210,7 @@ sudo usermod -a -G gpio $USER
 Hai problemi? 
 
 1. **Consulta la documentazione**:
-   - [README.md](README.md) - Troubleshooting generale
+   - [README.md](../README.md) - Troubleshooting generale
    - [server/CONFIGURAZIONE_SERVER.md](server/CONFIGURAZIONE_SERVER.md) - Problemi hardware
    - [client/CONFIGURAZIONE.md](client/CONFIGURAZIONE.md) - Problemi client
 

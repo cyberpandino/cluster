@@ -1,3 +1,9 @@
+[🇬🇧 English](DOCUMENTAZIONE.en.md) | [🇮🇹 Italiano](DOCUMENTAZIONE.md) | [🇩🇪 Deutsch](DOCUMENTAZIONE.de.md)
+
+> 📍 **Nota**: Il file README principale è nella root del progetto: [README.md](../README.md)
+
+---
+
 # 📚 Indice Documentazione - PandaOS Cluster
 
 Guida completa alla documentazione del progetto.
@@ -11,7 +17,7 @@ Guida completa alla documentazione del progetto.
 Guida rapida per avviare il progetto in 5 minuti.
 
 ### 📖 Vuoi Capire Tutto?
-**Leggi**: [README.md](README.md)  
+**Leggi**: [README.md](../README.md)  
 Documentazione principale completa con setup, configurazione e troubleshooting.
 
 ### 🛒 Devi Acquistare Componenti?
@@ -38,7 +44,7 @@ Feature future, wishlist e idee per contribuire al progetto.
 
 ## 📋 Struttura Documentazione
 
-### 1. [README.md](README.md) - Documentazione Principale
+### 1. [README.md](../README.md) - Documentazione Principale
 **Contenuto**:
 - 📋 Descrizione progetto e caratteristiche
 - ⚠️ **Disclaimer importante** (responsabilità e sicurezza)
@@ -198,24 +204,23 @@ Feature future, wishlist e idee per contribuire al progetto.
 
 ```
 cluster/
-├── README.md                          ← 📖 Documentazione principale
-├── QUICK_START.md                     ← ⚡ Guida rapida
-├── HARDWARE.md                        ← 🛒 Lista completa hardware
-├── ROADMAP.md                         ← 🗺️ Feature future e wishlist
-├── DOCUMENTAZIONE.md                  ← 📚 Questo file (indice)
-├── ARCHITETTURA.md                    ← 🏗️ Architettura tecnica
+├── README.md                          ← 📖 Documentazione principale (nella root)
 │
-├── client/
-│   ├── CONFIGURAZIONE.md              ← 💻 Configurazione client
-│   └── src/config/
-│       └── environment.ts             ← ⚙️ File configurazione
-│
-└── server/
-    ├── CONFIGURAZIONE_SERVER.md       ← 🔧 Setup hardware
-    ├── config/
-    │   └── gpio-mapping.js            ← 🔢 Mappatura GPIO
-    ├── services/                      ← 📦 Servizi backend
-    └── scripts/                       ← ⚡ Script power-saving
+└── docs/                              ← 📚 Tutta la documentazione
+    ├── QUICK_START.md                 ← ⚡ Guida rapida
+    ├── HARDWARE.md                    ← 🛒 Lista completa hardware
+    ├── ROADMAP.md                     ← 🗺️ Feature future e wishlist
+    ├── DOCUMENTAZIONE.md              ← 📚 Questo file (indice)
+    ├── ARCHITETTURA.md                ← 🏗️ Architettura tecnica
+    ├── AUTHORS.md                     ← 👥 Contributori
+    │
+    ├── client/
+    │   ├── CONFIGURAZIONE.md          ← 💻 Configurazione client
+    │   └── config/
+    │       └── README.md              ← ⚙️ Variabili d'ambiente
+    │
+    └── server/
+        └── CONFIGURAZIONE_SERVER.md   ← 🔧 Setup hardware e server
 ```
 ---
 
@@ -224,8 +229,8 @@ cluster/
 ### Configurazione
 | Cosa cerchi | Dove trovarlo |
 |-------------|---------------|
-| **Disclaimer e responsabilità** | **[README.md](README.md) § Disclaimer** |
-| Setup iniziale progetto | [README.md](README.md) § Setup |
+| **Disclaimer e responsabilità** | **[README.md](../README.md) § Disclaimer** |
+| Setup iniziale progetto | [README.md](../README.md) § Setup |
 | Configurazione client | [client/CONFIGURAZIONE.md](client/CONFIGURAZIONE.md) |
 | Configurazione server | [server/CONFIGURAZIONE_SERVER.md](server/CONFIGURAZIONE_SERVER.md) |
 | Modalità mock vs reale | [client/CONFIGURAZIONE.md](client/CONFIGURAZIONE.md) § Mock vs Reale |
@@ -246,7 +251,7 @@ cluster/
 ### Troubleshooting
 | Problema | Soluzione |
 |----------|-----------|
-| Server non si avvia | [README.md](README.md) § Troubleshooting |
+| Server non si avvia | [README.md](../README.md) § Troubleshooting |
 | ELM327 non trovato | [server/CONFIGURAZIONE_SERVER.md](server/CONFIGURAZIONE_SERVER.md) § Troubleshooting |
 | GPIO non funziona | [server/CONFIGURAZIONE_SERVER.md](server/CONFIGURAZIONE_SERVER.md) § Troubleshooting |
 | Sensori non rilevano | [server/CONFIGURAZIONE_SERVER.md](server/CONFIGURAZIONE_SERVER.md) § Troubleshooting |
@@ -269,7 +274,7 @@ cluster/
 Apri una [issue](https://github.com/cyberpandino/cluster/issues/new?template=question.md) per migliorare la documentazione.
 
 ### Bug o Problema?
-1. Controlla [README.md](README.md) § Troubleshooting
+1. Controlla [README.md](../README.md) § Troubleshooting
 2. Controlla documentazione specifica del modulo
 3. Apri un [Bug Report](https://github.com/cyberpandino/cluster/issues/new?template=bug_report.md) con:
    - Sistema operativo
