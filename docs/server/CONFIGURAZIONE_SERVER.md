@@ -156,10 +156,10 @@ systemd-analyze blame  # Mostra servizi più lenti
 
 **2. Ottimizza Boot Kernel**
 
-Modifica `/boot/cmdline.txt`:
+Modifica `/boot/firmware/cmdline.txt`:
 
 ```bash
-sudo nano /boot/cmdline.txt
+sudo nano /boot/firmware/cmdline.txt
 
 # Aggiungi alla fine della riga (tutto su UNA riga):
 quiet splash fastboot noatime nodiratime
