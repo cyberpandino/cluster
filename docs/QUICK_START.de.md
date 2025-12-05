@@ -29,7 +29,7 @@ node --version && npm --version && git --version
 ```bash
 # Repository klonen
 git clone git@github.com:cyberpandino/cluster.git
-cd cockpit
+cd cluster
 
 # Alle Abhängigkeiten installieren
 npm run install:all
