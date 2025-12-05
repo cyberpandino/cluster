@@ -1,5 +1,4 @@
-[🇬🇧 English](QUICK_START.en.md) | [🇮🇹 Italiano](QUICK_START.md) |
-[🇩🇪 Deutsch](QUICK_START.de.md)
+[🇬🇧 English](QUICK_START.en.md) | [🇮🇹 Italiano](QUICK_START.md) | [🇩🇪 Deutsch](QUICK_START.de.md)
 
 ---
 
@@ -7,9 +6,7 @@
 
 Quick guide to get started in 5 minutes.
 
-> ⚠️ **WARNING**: PandaOS is an experimental hobby project. Installation on real
-> vehicles is at your own risk. Read the
-> [full Disclaimer](README.en.md#️-disclaimer) before proceeding.
+> ⚠️ **WARNING**: PandaOS is an experimental hobby project. Installation on real vehicles is at your own risk. Read the [full Disclaimer](README.en.md#️-disclaimer) before proceeding.
 
 ---
 
@@ -23,8 +20,7 @@ Node.js 18+, npm 9+, Git 2.0+
 node --version && npm --version && git --version
 ```
 
-> 📘 Raspberry Pi: see
-> [CONFIGURAZIONE_SERVER.en.md](server/CONFIGURAZIONE_SERVER.en.md#2-installing-nodejs-and-npm)
+> 📘 Raspberry Pi: see [CONFIGURAZIONE_SERVER.en.md](server/CONFIGURAZIONE_SERVER.en.md#2-installing-nodejs-and-npm)
 
 ---
 
@@ -33,7 +29,7 @@ node --version && npm --version && git --version
 ```bash
 # Clone repository
 git clone git@github.com:cyberpandino/cluster.git
-cd cluster
+cd cockpit
 
 # Install all dependencies
 npm run install:all
@@ -84,8 +80,7 @@ npm start
 
 ## 📋 Hardware Checklist (Raspberry Pi)
 
-> 💡 **Need to purchase components?** Check [HARDWARE.en.md](HARDWARE.en.md) for
-> the complete list of everything needed.
+> 💡 **Need to purchase components?** Check [HARDWARE.en.md](HARDWARE.en.md) for the complete list of everything needed.
 
 Before starting in production, verify:
 
@@ -110,8 +105,8 @@ Before starting in production, verify:
 ```typescript
 export const environment = {
   websocket: {
-    url: "http://127.0.0.1:3001",
-    mock: true, // true=demo | false=real
+    url: 'http://127.0.0.1:3001',
+    mock: true,  // true=demo | false=real
   },
   debug: {
     enabled: true,
@@ -125,8 +120,8 @@ export const environment = {
 module.exports = {
   // OBD serial port (modify if necessary)
   // In OBDCommunicationService.js:
-  portPath: "/dev/ttyUSB0",
-
+  portPath: '/dev/ttyUSB0',
+  
   // GPIO pins for warning lights (see full table)
   mapping: {
     turnSignals: { pin: 17 },
@@ -134,7 +129,7 @@ module.exports = {
     highBeam: { pin: 5 },
     // ... others
   },
-
+  
   // Optional sensors
   temperature: { enabled: true },
   fuel: { enabled: true },
@@ -158,7 +153,7 @@ Once the application is running:
 
 ### "Server won't start"
 
-**On Mac/Windows**: Normal! Server requires Raspberry Pi.\
+**On Mac/Windows**: Normal! Server requires Raspberry Pi.  
 **Solution**: Use `mock: true` in client.
 
 ### "ELM327 not found"
@@ -194,10 +189,8 @@ sudo usermod -a -G gpio $USER
 ## 📚 Complete Documentation
 
 - **[README.en.md](README.en.md)** → Complete main documentation
-- **[client/CONFIGURAZIONE.en.md](client/CONFIGURAZIONE.en.md)** → Detailed
-  client configuration
-- **[server/CONFIGURAZIONE_SERVER.en.md](server/CONFIGURAZIONE_SERVER.en.md)** →
-  Hardware and server setup
+- **[client/CONFIGURAZIONE.en.md](client/CONFIGURAZIONE.en.md)** → Detailed client configuration
+- **[server/CONFIGURAZIONE_SERVER.en.md](server/CONFIGURAZIONE_SERVER.en.md)** → Hardware and server setup
 - **[ARCHITETTURA.en.md](ARCHITETTURA.en.md)** → System architecture
 
 ---
@@ -214,12 +207,11 @@ sudo usermod -a -G gpio $USER
 
 ## 📞 Help
 
-Having problems?
+Having problems? 
 
 1. **Check the documentation**:
    - [README.en.md](README.en.md) - General troubleshooting
-   - [server/CONFIGURAZIONE_SERVER.en.md](server/CONFIGURAZIONE_SERVER.en.md) -
-     Hardware issues
+   - [server/CONFIGURAZIONE_SERVER.en.md](server/CONFIGURAZIONE_SERVER.en.md) - Hardware issues
    - [client/CONFIGURAZIONE.en.md](client/CONFIGURAZIONE.en.md) - Client issues
 
 2. **Open an issue**:
@@ -227,8 +219,7 @@ Having problems?
    - [❓ Question](.github/ISSUE_TEMPLATE/question.md) - Ask a question
 
 3. **Contribute**:
-   - [✨ Feature Request](.github/ISSUE_TEMPLATE/feature_request.md) - Propose
-     improvements
+   - [✨ Feature Request](.github/ISSUE_TEMPLATE/feature_request.md) - Propose improvements
    - [CONTRIBUTING.en.md](.github/CONTRIBUTING.en.md) - Contribution guide
 
 ---
