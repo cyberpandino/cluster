@@ -1,4 +1,5 @@
-[🇬🇧 English](QUICK_START.en.md) | [🇮🇹 Italiano](QUICK_START.md) | [🇩🇪 Deutsch](QUICK_START.de.md)
+[🇬🇧 English](QUICK_START.en.md) | [🇮🇹 Italiano](QUICK_START.md) |
+[🇩🇪 Deutsch](QUICK_START.de.md)
 
 ---
 
@@ -6,7 +7,10 @@
 
 Kurzanleitung zum Einstieg in 5 Minuten.
 
-> ⚠️ **ACHTUNG**: PandaOS ist ein experimentelles Hobbyprojekt. Die Installation in echten Fahrzeugen erfolgt auf eigene Gefahr. Lesen Sie den [vollständigen Haftungsausschluss](README.de.md#️-haftungsausschluss) vor dem Fortfahren.
+> ⚠️ **ACHTUNG**: PandaOS ist ein experimentelles Hobbyprojekt. Die Installation
+> in echten Fahrzeugen erfolgt auf eigene Gefahr. Lesen Sie den
+> [vollständigen Haftungsausschluss](README.de.md#️-haftungsausschluss) vor dem
+> Fortfahren.
 
 ---
 
@@ -20,7 +24,8 @@ Node.js 18+, npm 9+, Git 2.0+
 node --version && npm --version && git --version
 ```
 
-> 📘 Raspberry Pi: siehe [CONFIGURAZIONE_SERVER.de.md](server/CONFIGURAZIONE_SERVER.de.md#2-installation-von-nodejs-und-npm)
+> 📘 Raspberry Pi: siehe
+> [CONFIGURAZIONE_SERVER.de.md](server/CONFIGURAZIONE_SERVER.de.md#2-installation-von-nodejs-und-npm)
 
 ---
 
@@ -29,7 +34,7 @@ node --version && npm --version && git --version
 ```bash
 # Repository klonen
 git clone git@github.com:cyberpandino/cluster.git
-cd cockpit
+cd cluster
 
 # Alle Abhängigkeiten installieren
 npm run install:all
@@ -80,7 +85,9 @@ npm start
 
 ## 📋 Hardware-Checkliste (Raspberry Pi)
 
-> 💡 **Müssen Sie Komponenten kaufen?** Konsultieren Sie [HARDWARE.de.md](HARDWARE.de.md) für die vollständige Liste von allem Notwendigen.
+> 💡 **Müssen Sie Komponenten kaufen?** Konsultieren Sie
+> [HARDWARE.de.md](HARDWARE.de.md) für die vollständige Liste von allem
+> Notwendigen.
 
 Vor dem Produktionsstart überprüfen:
 
@@ -105,8 +112,8 @@ Vor dem Produktionsstart überprüfen:
 ```typescript
 export const environment = {
   websocket: {
-    url: 'http://127.0.0.1:3001',
-    mock: true,  // true=Demo | false=Echt
+    url: "http://127.0.0.1:3001",
+    mock: true, // true=Demo | false=Echt
   },
   debug: {
     enabled: true,
@@ -120,8 +127,8 @@ export const environment = {
 module.exports = {
   // OBD Serielle Schnittstelle (ändern Sie bei Bedarf)
   // In OBDCommunicationService.js:
-  portPath: '/dev/ttyUSB0',
-  
+  portPath: "/dev/ttyUSB0",
+
   // GPIO-Pins für Warnleuchten (siehe vollständige Tabelle)
   mapping: {
     turnSignals: { pin: 17 },
@@ -129,7 +136,7 @@ module.exports = {
     highBeam: { pin: 5 },
     // ... andere
   },
-  
+
   // Optionale Sensoren
   temperature: { enabled: true },
   fuel: { enabled: true },
@@ -153,7 +160,7 @@ Nach dem Start der Anwendung:
 
 ### "Server startet nicht"
 
-**Auf Mac/Windows**: Normal! Der Server benötigt Raspberry Pi.  
+**Auf Mac/Windows**: Normal! Der Server benötigt Raspberry Pi.\
 **Lösung**: Verwenden Sie `mock: true` im Client.
 
 ### "ELM327 nicht gefunden"
@@ -189,8 +196,10 @@ sudo usermod -a -G gpio $USER
 ## 📚 Vollständige Dokumentation
 
 - **[README.de.md](README.de.md)** → Vollständige Hauptdokumentation
-- **[client/CONFIGURAZIONE.de.md](client/CONFIGURAZIONE.de.md)** → Detaillierte Client-Konfiguration
-- **[server/CONFIGURAZIONE_SERVER.de.md](server/CONFIGURAZIONE_SERVER.de.md)** → Hardware- und Server-Setup
+- **[client/CONFIGURAZIONE.de.md](client/CONFIGURAZIONE.de.md)** → Detaillierte
+  Client-Konfiguration
+- **[server/CONFIGURAZIONE_SERVER.de.md](server/CONFIGURAZIONE_SERVER.de.md)** →
+  Hardware- und Server-Setup
 - **[ARCHITETTURA.de.md](ARCHITETTURA.de.md)** → Systemarchitektur
 
 ---
@@ -198,7 +207,8 @@ sudo usermod -a -G gpio $USER
 ## 🎯 Nächste Schritte
 
 1. **UI-Entwicklung**: Komponenten in `client/src/components/` ändern
-2. **GPIO anpassen**: `server/config/gpio-mapping.js` an Ihre Verkabelung anpassen
+2. **GPIO anpassen**: `server/config/gpio-mapping.js` an Ihre Verkabelung
+   anpassen
 3. **PID hinzufügen**: `server/services/PIDParserService.js` erweitern
 4. **Styling**: `client/src/assets/scss/` ändern
 5. **Produktion**: PM2-Setup (siehe README.de.md)
@@ -211,15 +221,18 @@ Haben Sie Probleme?
 
 1. **Dokumentation konsultieren**:
    - [README.de.md](README.de.md) - Allgemeine Fehlerbehebung
-   - [server/CONFIGURAZIONE_SERVER.de.md](server/CONFIGURAZIONE_SERVER.de.md) - Hardware-Probleme
-   - [client/CONFIGURAZIONE.de.md](client/CONFIGURAZIONE.de.md) - Client-Probleme
+   - [server/CONFIGURAZIONE_SERVER.de.md](server/CONFIGURAZIONE_SERVER.de.md) -
+     Hardware-Probleme
+   - [client/CONFIGURAZIONE.de.md](client/CONFIGURAZIONE.de.md) -
+     Client-Probleme
 
 2. **Issue öffnen**:
    - [🐛 Bug Report](.github/ISSUE_TEMPLATE/bug_report.md) - Problem melden
    - [❓ Frage](.github/ISSUE_TEMPLATE/question.md) - Frage stellen
 
 3. **Beitragen**:
-   - [✨ Feature Request](.github/ISSUE_TEMPLATE/feature_request.md) - Verbesserungen vorschlagen
+   - [✨ Feature Request](.github/ISSUE_TEMPLATE/feature_request.md) -
+     Verbesserungen vorschlagen
    - [CONTRIBUTING.de.md](.github/CONTRIBUTING.de.md) - Anleitung zum Beitragen
 
 ---
