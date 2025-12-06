@@ -5,11 +5,12 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "install:all": "npm install && npm --prefix client install && npm --prefix server install && echo \"✅ Installazione completata con successo!\"",
-    "start": "concurrently \"npm run server\" \"npm run client\" \"npm run electron\"",
-    "client": "cd client && npm run dev",
+    "install:all": "node scripts/pm.js install && node scripts/pm.js install --cwd client && node scripts/pm.js install --cwd server && echo \"✅ Installazione completata con successo!\"",
+    "start": "concurrently \"node scripts/pm.js run server\" \"node scripts/pm.js run client\" \"node scripts/pm.js run electron\"",
+    "client": "node scripts/pm.js run dev --cwd client",
     "server": "node server/server.js",
-    "electron": "wait-on http://localhost:5173 && electron ."
+    "electron": "wait-on http://localhost:5173 && electron .",
+    "pm": "node scripts/pm.js"
   },
   "keywords": ["automotive", "obd2", "raspberry-pi", "fiat-panda", "digital-cluster", "gpio"],
   "author": "Cyberpandino (Matteo Errera, Roberto Zaccardi, Ludovico Verde)",
