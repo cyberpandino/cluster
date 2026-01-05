@@ -4,6 +4,7 @@ import { OrbitControls, useGLTF } from '@react-three/drei';
 import { Mesh } from 'three';
 import { useSnapshot } from "valtio";
 import { state } from "../../store/state";
+import { graphics } from "../../config/environment";
 
 function Model() {
     const gltf = useGLTF('/panda.glb');
@@ -105,6 +106,31 @@ function CameraLogger() {
 }
 
 export default function ModelViewer() {
+    // Quality < 3: mostra immagine statica invece del modello 3D
+    if (graphics.quality < 3) {
+        return (
+            <div className="modelViewer-static" style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '100%',
+                height: '100%',
+            }}>
+                <img 
+                    src="/fallback-3d-model.png" 
+                    alt="Panda 3D" 
+                    style={{
+                        marginTop: '4%',
+                        width: '65%',
+                        height: '65%',
+                        objectFit: 'contain',
+                        opacity: 0.6,
+                    }}
+                />
+            </div>
+        );
+    }
+
     return (
         <Canvas 
             gl={{ alpha: true }}

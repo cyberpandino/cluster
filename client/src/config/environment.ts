@@ -42,9 +42,18 @@ export const environment: EnvironmentConfig = {
     timezone: "Europe/Rome",
     timeFormat: "24h",
   },
+  /**
+   * Qualità grafica:
+   * - 3 (max): Modello 3D + effetti blur (per PC/Mac)
+   * - 2 (medium): Solo effetti blur, no modello 3D
+   * - 1 (min): No blur, no modello 3D (per hardware con scarse risorse computazionali)
+   */
+  graphics: {
+    quality: 3,
+  },
 };
 
 // Export dei singoli moduli per comodità
-export const { websocket, splashScreen, debug, app } = environment;
+export const { websocket, splashScreen, debug, app, graphics } = environment;
 
 export default environment;
