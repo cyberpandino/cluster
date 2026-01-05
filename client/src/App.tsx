@@ -26,7 +26,7 @@ import moment from "moment-timezone";
 import 'moment/locale/it';
 import 'moment/dist/locale/it';
 import Cockpit from "./routes/Cockpit/Cockpit";
-import { app as appConfig } from "./config/environment";
+import { app as appConfig, graphics } from "./config/environment";
 
 export default function App() {
   moment.tz.setDefault(appConfig.timezone);
@@ -44,6 +44,12 @@ export default function App() {
     return () => {
       websocketService.disconnect();
     };
+  }, []);
+
+  // Applica classe qualità grafica sul body
+  useEffect(() => {
+    document.body.classList.remove('quality-1', 'quality-2', 'quality-3');
+    document.body.classList.add(`quality-${graphics.quality}`);
   }, []);
 
   // Gestione tasti di scelta rapida
