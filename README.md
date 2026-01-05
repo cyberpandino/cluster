@@ -182,7 +182,8 @@ git --version   # >= 2.0.0
   - Display LCD ultra-wide (1920×480 consigliato)
   - Sensore temperatura DS18B20 (opzionale)
   - Convertitore ADC ADS1115 (opzionale, per sensore carburante)
-
+  
+  > **Raspberry Pi 3 Model B+**: Funziona in modalità Headless (solo server)  
 📋 **Lista completa hardware**: Vedi [HARDWARE.md](docs/HARDWARE.md) per dettagli su tutti i componenti necessari
 
 - **Sistema Operativo**:
