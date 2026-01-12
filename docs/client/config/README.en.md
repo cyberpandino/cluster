@@ -140,11 +140,44 @@ splashScreen: {
 | `locale` | string | `it` | Language (moment.js) |
 | `timezone` | string | `Europe/Rome` | Timezone |
 
+### Graphics (Graphics Quality)
+
+> 🔗 See [Issue #25](https://github.com/cyberpandino/cluster/issues/25) for performance optimization details.
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `quality` | 1 \| 2 \| 3 | `3` | Graphics quality level |
+
+#### Quality Levels
+
+| Level | 3D Model | Blur Effects | Recommended for |
+|-------|----------|--------------|-----------------|
+| **3 (max)** | ✅ WebGL Canvas | ✅ Enabled | Modern hardware (PC, Mac, Raspberry Pi 5) |
+| **2 (medium)** | ❌ Static image | ✅ Enabled | Medium hardware |
+| **1 (min)** | ❌ Static image | ❌ Static gradients | Older/limited hardware (Raspberry Pi 4B and earlier) |
+
+#### Optimizations for Older Hardware
+
+For hardware with limited resources (like Raspberry Pi 4B or earlier), set `quality: 1`:
+
+```typescript
+graphics: {
+  quality: 1,  // Disables blur and 3D model
+}
+```
+
+This disables:
+- **WebGL 3D Model** → replaced with static PNG image
+- **`backdrop-filter: blur()`** → replaced with opaque background
+- **`filter: blur()`** on glow → replaced with radial gradient
+
 ## 🔄 Files Using Config
 
 - ✅ `services/websocket.ts` - WebSocket/Mock
 - ✅ `components/SplashScreen/SplashScreen.tsx` - Splash screen
-- ✅ `App.tsx` - Locale and timezone
+- ✅ `App.tsx` - Locale, timezone and graphics quality
+- ✅ `components/ModelViewer/ModelViewer.tsx` - 3D model/fallback
+- ✅ `App.scss` - Conditional styles for graphics quality
 
 ## 🚀 Workflow
 

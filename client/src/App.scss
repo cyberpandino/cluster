@@ -336,3 +336,43 @@ header{
     }
   }
 }
+
+// ============================================
+// QUALITÀ GRAFICA - Ottimizzazioni performance
+// ============================================
+
+// Quality 1 (min): Disabilita tutti i blur per Raspberry Pi
+body.quality-1 {
+  // Disabilita blur sul glow del cockpit
+  .pageCockpit:before {
+    -webkit-filter: none !important;
+    filter: none !important;
+    // Sostituisce con gradiente statico
+    background: radial-gradient(circle, rgba(123, 212, 211, 0.4) 0%, transparent 70%) !important;
+  }
+
+  // Disabilita backdrop-filter su Tachometer
+  .componentTachometer {
+    .mid,
+    .inner {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      background: rgba(7, 8, 8, 0.8) !important;
+    }
+  }
+
+  // Disabilita backdrop-filter su Odometer
+  .componentOdometer {
+    .mid,
+    .inner {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      background: rgba(7, 8, 8, 0.8) !important;
+    }
+  }
+}
+
+// Quality 2 (medium): Modello 3D disabilitato ma blur attivi
+// (gestito da ModelViewer.tsx)
+
+// Quality 3 (max): Tutto abilitato (default)
