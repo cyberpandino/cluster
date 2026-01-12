@@ -5,7 +5,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["obd2", "raspberry-pi", "gpio", "automotive", "elm327", "websocket"],
+  "keywords": [
+    "obd2",
+    "raspberry-pi",
+    "gpio",
+    "automotive",
+    "elm327",
+    "websocket"
+  ],
   "author": "Cyberpandino (Matteo Errera, Roberto Zaccardi, Ludovico Verde)",
   "license": "GPL-3.0-or-later",
   "description": "PandaOS Cluster - Server backend for OBD-II and GPIO communication",
@@ -29,12 +36,15 @@
     "dotenv": "^17.2.0",
     "obd": "^1.0.0",
     "obd-parser": "^0.3.0",
+    "serialport": "^13.0.0",
     "socket.io": "^4.8.1"
   },
   "optionalDependencies": {
     "@serialport/parser-readline": "^13.0.0",
     "ads1x15": "^1.1.1",
-    "onoff": "^6.0.3",
-    "serialport": "^13.0.0"
+    "onoff": "^6.0.3"
+  },
+  "devDependencies": {
+    "node-gyp": "^10.3.1"
   }
 }

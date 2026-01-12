@@ -156,10 +156,10 @@ systemd-analyze blame  # Mostra servizi più lenti
 
 **2. Ottimizza Boot Kernel**
 
-Modifica `/boot/cmdline.txt`:
+Modifica `/boot/firmware/cmdline.txt`:
 
 ```bash
-sudo nano /boot/cmdline.txt
+sudo nano /boot/firmware/cmdline.txt
 
 # Aggiungi alla fine della riga (tutto su UNA riga):
 quiet splash fastboot noatime nodiratime
@@ -215,7 +215,7 @@ Se hai esperienza con embedded Linux e vuoi contribuire, apri una [issue](https:
 
 ---
 
-### 2. Installazione Node.js e npm
+### T2. Installazione Node.js e npm
 
 ⚠️ **Importante**: `apt install nodejs` installa una versione obsoleta (v12-14). PandaOS richiede **Node.js 18+**.
 
@@ -249,6 +249,13 @@ sudo apt install -y git build-essential python3
 ```
 
 `build-essential` è necessario per compilare moduli nativi (SerialPort, onoff, i2c-bus).
+
+**Os Bookworm (su Raspberry pi 3 Model B+)**
+*Installare i tool di compilazione Python prima di lanciare 'npm install' per compilare librerie native ('onoff', 'serialport')*
+```bash
+sudo apt-get update
+sudo apt-get install python3-setuptools
+```
 
 **Verifica**
 

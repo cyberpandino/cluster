@@ -156,10 +156,10 @@ systemd-analyze blame  # Shows slowest services
 
 **2. Optimize Kernel Boot**
 
-Edit `/boot/cmdline.txt`:
+Edit `/boot/firmware/cmdline.txt`:
 
 ```bash
-sudo nano /boot/cmdline.txt
+sudo nano /boot/firmware/cmdline.txt
 
 # Add at the end of the line (everything on ONE line):
 quiet splash fastboot noatime nodiratime

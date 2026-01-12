@@ -49,6 +49,10 @@ Lista completa dei componenti hardware necessari per realizzare il progetto Pand
 
 **Raccomandazione**: Il **Raspberry Pi 4B con 4GB** è il miglior compromesso prestazioni/facilità di installazione. Il Pi 5 è consigliato solo se vuoi animazioni 3D ultra-fluide e hai un alimentatore adeguato.
 
+**Raspberry Pi 3 Model B+**: Supportato ufficialmente in modalità **Server-Only (Headless)**
+- **Nota**: Questo modello non ha potenza sufficiente per gestire fluidamente anche l'interfaccia grafica (React/Electron). Si consiglia di usarlo solo per il backend.
+- **OS Richiesto**: Raspberry Pi OS "Bookworm" (64-bit).
+
 ---
 
 ### 2. Adattatore OBD-II

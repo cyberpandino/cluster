@@ -47,8 +47,11 @@ Thumbs.db
 .DS_STORE
 
 # Lock files (opzionale - rimuovi se vuoi tracciare lock files)
-# package-lock.json
-# yarn.lock
+package-lock.json
+npm-shrinkwrap.json
+yarn.lock
+pnpm-lock.yaml
+bun.lockb
 
 # Temporary
 *.tmp
