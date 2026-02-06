@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "pre-commit": "npx eslint --fix .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -45,6 +46,9 @@
     "onoff": "^6.0.3"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "@stylistic/eslint-plugin": "^5.7.1",
+    "eslint": "^9.39.2",
     "node-gyp": "^10.3.1"
   }
 }
