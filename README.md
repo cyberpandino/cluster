@@ -10,11 +10,11 @@
 [![Platform](https://img.shields.io/badge/platform-Raspberry%20Pi%204B%2F5-red.svg)](https://www.raspberrypi.com/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/cyberpandino/cluster/blob/main/.github/CONTRIBUTING.md)
 
-Quadro strumenti digitale per Fiat Panda 141 basato su Raspberry Pi 4B.
+Quadro strumenti digitale per Fiat Panda 141 basato su Arduino / Raspberry Pi 4B.
 
 ## 📋 Descrizione
 
-Sistema completo di quadro strumenti digitale che sostituisce la strumentazione analogica originale della Fiat Panda 141. Il sistema si interfaccia con la centralina tramite protocollo OBD-II (ELM327) e legge le spie luminose tramite optoaccoppiatori collegati ai pin GPIO del Raspberry Pi.
+Sistema completo di quadro strumenti digitale che sostituisce la strumentazione analogica originale della Fiat Panda 141. Il sistema si interfaccia con la centralina tramite protocollo OBD-II (ELM327) e legge le spie luminose tramite optoaccoppiatori collegati ai pin GPIO dell'Arduino / Raspberry Pi.
 
 ### Caratteristiche Principali (v0.9.0)
 
