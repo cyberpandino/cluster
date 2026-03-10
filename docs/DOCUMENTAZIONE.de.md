@@ -176,8 +176,8 @@ docs/
 
 Bei Fragen, Problemen oder Anregungen:
 
-1. **GitHub Issues**: [github.com/seregonwar/Cluster-PandaOS/issues](https://github.com/seregonwar/Cluster-PandaOS/issues)
-2. **Diskussionen**: [github.com/seregonwar/Cluster-PandaOS/discussions](https://github.com/seregonwar/Cluster-PandaOS/discussions)
+1. **GitHub Issues**: [github.com/cyberpandino/cluster/issues](https://github.com/cyberpandino/cluster/issues)
+2. **Diskussionen**: [github.com/cyberpandino/cluster/discussions](https://github.com/cyberpandino/cluster/discussions)
 
 ---
 
