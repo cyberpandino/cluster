@@ -171,14 +171,7 @@ class WebSocketService {
       window.location.reload();
     });
 
-    // Gestione dati generici
-    this.socket.onAny((eventName, data) => {
-      this.handleData(data);
-    });
-
-    // Eventi specifici dati
-    this.socket.on('monitoring-data', (data) => this.handleData(data));
-    this.socket.on('data', (data) => this.handleData(data));
+    // Dati OBD live dal server Go (20 Hz)
     this.socket.on('obd-live', (data) => this.handleData(data));
     
     // Ricezione stato spie GPIO

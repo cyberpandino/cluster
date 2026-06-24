@@ -11,25 +11,25 @@
  * GNU General Public License for more details.
  */
 
-import { EnvironmentConfig } from './types';
+import { EnvironmentConfig } from "./types";
 
 /**
  * Configurazione unica dell'applicazione
- * 
+ *
  * Per cambiare modalità mock: modifica il valore di websocket.mock
  * - true  = Modalità demo con animazioni simulate
  * - false = Connessione WebSocket reale al server
  */
 export const environment: EnvironmentConfig = {
   websocket: {
-    url: 'http://127.0.0.1:3001',
-    mock: true,
+    url: "http://127.0.0.1:3002",
+    mock: false,
     reconnectionAttempts: 3,
     reconnectionDelay: 1000,
     timeout: 5000,
   },
   splashScreen: {
-    path: '/splashscreen.mp4'
+    path: "/splashscreen.mp4",
   },
   debug: {
     enabled: true,

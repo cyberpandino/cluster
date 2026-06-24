@@ -80,4 +80,4 @@ const state = proxy(initialState);
 
 export { state }
 
-const unsub = devtools(state, { name: 'state', enabled: true })
+const unsub = devtools(state, { name: 'state', enabled: import.meta.env.DEV })
