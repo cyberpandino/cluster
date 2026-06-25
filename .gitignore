@@ -59,3 +59,5 @@ bun.lockb
 
 # PM2
 .pm2/
+.claude
+CLAUDE.md

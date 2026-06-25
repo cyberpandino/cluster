@@ -7,6 +7,7 @@ const WarningLights = () => {
   const snapWarnings = useSnapshot(state.warnings);
   const [lastShownIcon, setLastShownIcon] = useState<string | null>(null);
   const prevWarningsRef = useRef<typeof state.warnings>({ ...state.warnings });
+  const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const warningColors = {
     doors: '#FFA500',
@@ -31,16 +32,20 @@ const WarningLights = () => {
     for (const key of Object.keys(snapWarnings)) {
       const k = key as keyof typeof snapWarnings;
       if (snapWarnings[k] && !prevWarningsRef.current[k]) {
-        // nuova spia accesa
         setLastShownIcon(k);
-
-        // rimuovi dopo 5 secondi
-        setTimeout(() => setLastShownIcon(null), 5000);
+        if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
+        hideTimeoutRef.current = setTimeout(() => setLastShownIcon(null), 5000);
         break;
       }
     }
     prevWarningsRef.current = { ...snapWarnings };
   }, [snapWarnings]);
+
+  useEffect(() => {
+    return () => {
+      if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
+    };
+  }, []);
 
   return (
     <div className="componentWarningLights">

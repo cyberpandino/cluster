@@ -1,8 +1,0 @@
-node_modules
-
-# Lock files
-package-lock.json
-npm-shrinkwrap.json
-yarn.lock
-pnpm-lock.yaml
-bun.lockb
