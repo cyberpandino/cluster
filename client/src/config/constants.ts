@@ -70,14 +70,6 @@ export const WARNING_LIGHTS = [
 ] as const;
 
 /**
- * Velocità animazione tachimetro/odometro
- */
-export const ANIMATION_SPEED = {
-  STEP: 80,
-  THRESHOLD: 1,
-} as const;
-
-/**
  * Gauge dials (odometer, tachometer)
  */
 export const GAUGE = {
