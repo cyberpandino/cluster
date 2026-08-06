@@ -80,6 +80,10 @@ export const ANIMATION_SPEED = {
  * Odometer (speed)
  */
 export const ODOMETER = {
+  // Time constant of the displayed value smoothing (ms)
+  SMOOTHING: 120,
+  // Below this difference the value snaps to the target (km/h)
+  SETTLE_THRESHOLD: 0.5,
   // Portion of the circumference covered by the arc (%)
   ARC_SWEEP: 80,
 } as const;

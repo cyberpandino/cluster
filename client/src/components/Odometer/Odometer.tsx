@@ -1,7 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import "./Odometer.scss";
-import { ANIMATION_SPEED, ODOMETER } from "../../config/constants";
+import { ODOMETER } from "../../config/constants";
+import { graphics } from "../../config/environment";
 import { OdometerProps } from "./Odometer.types";
+
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 
 /**
  * Scale markers, laid out clockwise from the top so they follow the direction
@@ -21,60 +24,85 @@ const TICKS = [
  * @param {OdometerProps} props - Current speed and the range it is drawn against
  */
 const Odometer = ({ value, min, max, className }: OdometerProps) => {
-  const [speed, setSpeed] = useState(0);
-  const requestRef = useRef<number | null>(null);
-  const [isRaspberryPi, setIsRaspberryPi] = useState(false);
+  const [displayed, setDisplayed] = useState(value);
+  const [reducedMotion, setReducedMotion] = useState(
+    () => window.matchMedia(REDUCED_MOTION_QUERY).matches
+  );
+
+  const targetRef = useRef(value);
+  const animatedRef = useRef(value);
+  const frameRef = useRef<number | null>(null);
+
+  const isInstant = reducedMotion || graphics.quality === 1;
 
   /**
-   * Anima gradualmente il valore velocità verso il target
-   */
-  const animateSpeed = () => {
-    setSpeed((prev) => {
-      const diff = value - prev;
-      const step = Math.sign(diff) * Math.min(Math.abs(diff), ANIMATION_SPEED.STEP);
-      const next = prev + step;
-
-      if (Math.abs(diff) <= ANIMATION_SPEED.THRESHOLD) {
-        cancelAnimationFrame(requestRef.current!);
-        return value;
-      }
-
-      requestRef.current = requestAnimationFrame(animateSpeed);
-      return next;
-    });
-  };
-
-  /**
-   * Rileva se l'applicazione è in esecuzione su Raspberry Pi
+   * Tracks the accessibility preference while mounted, since the cluster runs
+   * for hours and the setting can change without a reload
    */
   useEffect(() => {
-    const userAgent = navigator.userAgent.toLowerCase();
-    const platform = navigator.platform.toLowerCase();
-    const isRpi = userAgent.includes('linux arm') ||
-                  platform.includes('arm') ||
-                  userAgent.includes('raspberry') ||
-                  (navigator.hardwareConcurrency !== undefined && navigator.hardwareConcurrency <= 4);
+    const query = window.matchMedia(REDUCED_MOTION_QUERY);
+    const handleChange = (event: MediaQueryListEvent) => setReducedMotion(event.matches);
 
-    setIsRaspberryPi(isRpi);
+    query.addEventListener("change", handleChange);
+    return () => query.removeEventListener("change", handleChange);
   }, []);
 
   /**
-   * Aggiorna il valore velocità quando cambia lo stato
+   * Drives the displayed value towards the incoming speed.
+   * A single loop is kept alive across value changes: restarting it on every
+   * update would reset the easing and make the readout stutter
    */
   useEffect(() => {
-    if (isRaspberryPi) {
-      setSpeed(value);
-    } else {
-      requestRef.current = requestAnimationFrame(animateSpeed);
+    targetRef.current = value;
+
+    if (isInstant) {
+      if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
+      frameRef.current = null;
+      animatedRef.current = value;
+      setDisplayed(value);
+      return;
     }
 
-    return () => {
-      if (requestRef.current) cancelAnimationFrame(requestRef.current);
+    if (frameRef.current !== null) return;
+
+    let previousTime = performance.now();
+
+    // Exponential smoothing: frame-rate independent, and able to retarget
+    // without restarting the animation
+    const tick = (time: number) => {
+      const delta = time - previousTime;
+      previousTime = time;
+
+      const remaining = targetRef.current - animatedRef.current;
+
+      if (Math.abs(remaining) < ODOMETER.SETTLE_THRESHOLD) {
+        animatedRef.current = targetRef.current;
+        frameRef.current = null;
+        setDisplayed(targetRef.current);
+        return;
+      }
+
+      animatedRef.current += remaining * (1 - Math.exp(-delta / ODOMETER.SMOOTHING));
+      frameRef.current = requestAnimationFrame(tick);
+      setDisplayed(animatedRef.current);
     };
-  }, [value, isRaspberryPi]);
+
+    frameRef.current = requestAnimationFrame(tick);
+  }, [value, isInstant]);
+
+  /**
+   * Unmount-only cleanup. It cannot live in the effect above, whose cleanup
+   * would cancel the running loop on every speed update
+   */
+  useEffect(() => {
+    return () => {
+      if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
+      frameRef.current = null;
+    };
+  }, []);
 
   const range = Math.max(max - min, 1);
-  const progress = Math.min(Math.max((speed - min) / range, 0), 1);
+  const progress = Math.min(Math.max((displayed - min) / range, 0), 1);
   const percentage = progress * ODOMETER.ARC_SWEEP;
 
   /**
@@ -104,7 +132,7 @@ const Odometer = ({ value, min, max, className }: OdometerProps) => {
           <div className="inner" />
           <div className="mid" />
           <div className="label">
-            <h2>{Math.round(speed)}</h2>
+            <h2>{Math.round(displayed)}</h2>
             <p>km/h</p>
           </div>
         </div>
