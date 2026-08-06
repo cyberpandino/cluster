@@ -1,0 +1,175 @@
+@property --gauge-arc {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: rgba(123, 212, 211, 0.6);
+}
+
+.root {
+  --gauge-arc-normal: rgba(123, 212, 211, 0.6);
+  --gauge-arc-high: rgba(255, 255, 255, 0.6);
+  --gauge-arc-critical: rgba(255, 0, 0, 0.6);
+  --gauge-hairline: #fff5;
+  --gauge-surface: #07080810;
+  // Gap between the dial's bounding box and the outer corner of each tick
+  // label. Kept at 0 because the space the corner radius leaves free shrinks
+  // fast as the dial gets smaller, and a wide label needs all of it
+  --gauge-tick-inset: 0px;
+
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 420px;
+  min-width: 260px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.wrapper {
+  background: linear-gradient(180deg, rgba(123, 212, 211, 0.05) 0%, rgba(123, 212, 211, 0) 100%);
+  position: relative;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:before,
+  &:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    z-index: 0;
+    background: var(--gauge-hairline);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &:after {
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+}
+
+.dial {
+  --gauge-arc: var(--gauge-arc-normal);
+
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100px;
+  border: 1.5px solid var(--gauge-hairline);
+  background: conic-gradient(
+    var(--gauge-arc) 0% var(--gauge-fill, 0%),
+    transparent var(--gauge-fill, 0%) 100%
+  );
+  transition: --gauge-arc 200ms ease-out;
+
+  &[data-level="high"] {
+    --gauge-arc: var(--gauge-arc-high);
+  }
+
+  &[data-level="critical"] {
+    --gauge-arc: var(--gauge-arc-critical);
+  }
+}
+
+.ring {
+  position: absolute;
+  width: 75%;
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 80px;
+  z-index: 0;
+  border: 1.5px dashed var(--gauge-hairline);
+  backdrop-filter: blur(100px);
+  background: var(--gauge-surface);
+}
+
+.hub {
+  position: absolute;
+  width: 50%;
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 50px;
+  z-index: 1;
+  border: 1.5px solid var(--gauge-hairline);
+  backdrop-filter: blur(100px);
+  background: var(--gauge-surface);
+}
+
+.readout {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
+
+  h2 {
+    font-weight: 300;
+    font-size: 50px;
+    line-height: 77%;
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+// Each label is pinned by the corner facing away from the dial, so a wide one
+// keeps all the room the corner radius leaves free. Every label gets the same
+// box and is centred inside it, so a one-digit tick sits exactly where a
+// three-digit tick does rather than retreating into the corner
+.tick {
+  position: absolute;
+  min-width: 3ch;
+  text-align: center;
+  font-size: 20px;
+  line-height: 77%;
+  color: var(--gauge-hairline);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.tickTopRight {
+  top: var(--gauge-tick-inset);
+  right: var(--gauge-tick-inset);
+}
+
+.tickBottomRight {
+  bottom: var(--gauge-tick-inset);
+  right: var(--gauge-tick-inset);
+}
+
+.tickBottomLeft {
+  bottom: var(--gauge-tick-inset);
+  left: var(--gauge-tick-inset);
+}
+
+.tickTopLeft {
+  top: var(--gauge-tick-inset);
+  left: var(--gauge-tick-inset);
+}
+
+// Lowest graphics quality: no blur, opaque surfaces
+:global(body.quality-1) {
+  .ring,
+  .hub {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(7, 8, 8, 0.8);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dial {
+    transition: none;
+  }
+}

@@ -13,9 +13,10 @@ export const MOCK_ANIMATION = {
     PAUSE_DURATION: 5000,
   },
   
-  // RPM fisso in modalità mock
+  // RPM range covered in mock mode, from idle to the top of the sweep
   RPM: {
-    FIXED_VALUE: 1650,
+    IDLE: 800,
+    MAX: 6500,
   },
   
   // Ciclo spie di warning (ms)
@@ -69,10 +70,17 @@ export const WARNING_LIGHTS = [
 ] as const;
 
 /**
- * Velocità animazione tachimetro/odometro
+ * Gauge dials (odometer, tachometer)
  */
-export const ANIMATION_SPEED = {
-  STEP: 80,
-  THRESHOLD: 1,
+export const GAUGE = {
+  // Time constant of the displayed value smoothing (ms)
+  SMOOTHING: 120,
+  // Below this difference the value snaps to the target (km/h)
+  SETTLE_THRESHOLD: 0.5,
+  // Portion of the circumference covered by the arc (%)
+  ARC_SWEEP: 80,
+  // Colour thresholds, as a fraction of max speed
+  HIGH_LEVEL: 0.7,
+  CRITICAL_LEVEL: 0.9,
 } as const;
 
