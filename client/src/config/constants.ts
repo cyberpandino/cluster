@@ -78,9 +78,9 @@ export const ANIMATION_SPEED = {
 } as const;
 
 /**
- * Odometer (speed)
+ * Gauge dials (odometer, tachometer)
  */
-export const ODOMETER = {
+export const GAUGE = {
   // Time constant of the displayed value smoothing (ms)
   SMOOTHING: 120,
   // Below this difference the value snaps to the target (km/h)
