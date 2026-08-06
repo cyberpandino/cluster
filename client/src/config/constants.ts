@@ -76,3 +76,11 @@ export const ANIMATION_SPEED = {
   THRESHOLD: 1,
 } as const;
 
+/**
+ * Odometer (speed)
+ */
+export const ODOMETER = {
+  // Portion of the circumference covered by the arc (%)
+  ARC_SWEEP: 80,
+} as const;
+

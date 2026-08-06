@@ -1,18 +1,26 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./Odometer.scss";
-import { useSnapshot } from "valtio";
-import { state } from "../../store/state";
-import { ANIMATION_SPEED } from "../../config/constants";
+import { ANIMATION_SPEED, ODOMETER } from "../../config/constants";
+import { OdometerProps } from "./Odometer.types";
 
 /**
- * Componente Odometer
- * Visualizza la velocità del veicolo con animazione fluida
+ * Scale markers, laid out clockwise from the top so they follow the direction
+ * of the arc sweep
  */
-const Odometer = () => {
-  const snapSpeed = useSnapshot(state.session.speed);
-  const maxSpeed = snapSpeed.max;
-  const minSpeed = snapSpeed.min;
+const TICKS = [
+  { value: 20, position: "counter1" },
+  { value: 70, position: "counter2" },
+  { value: 100, position: "counter3" },
+  { value: 150, position: "counter4" },
+];
 
+/**
+ * Odometer component
+ * Displays vehicle speed as a numeric readout plus a circular arc gauge.
+ * Purely presentational: the caller owns the store subscription
+ * @param {OdometerProps} props - Current speed and the range it is drawn against
+ */
+const Odometer = ({ value, min, max, className }: OdometerProps) => {
   const [speed, setSpeed] = useState(0);
   const requestRef = useRef<number | null>(null);
   const [isRaspberryPi, setIsRaspberryPi] = useState(false);
@@ -22,13 +30,13 @@ const Odometer = () => {
    */
   const animateSpeed = () => {
     setSpeed((prev) => {
-      const diff = snapSpeed.current - prev;
+      const diff = value - prev;
       const step = Math.sign(diff) * Math.min(Math.abs(diff), ANIMATION_SPEED.STEP);
       const next = prev + step;
 
       if (Math.abs(diff) <= ANIMATION_SPEED.THRESHOLD) {
         cancelAnimationFrame(requestRef.current!);
-        return snapSpeed.current;
+        return value;
       }
 
       requestRef.current = requestAnimationFrame(animateSpeed);
@@ -42,11 +50,11 @@ const Odometer = () => {
   useEffect(() => {
     const userAgent = navigator.userAgent.toLowerCase();
     const platform = navigator.platform.toLowerCase();
-    const isRpi = userAgent.includes('linux arm') || 
-                  platform.includes('arm') || 
+    const isRpi = userAgent.includes('linux arm') ||
+                  platform.includes('arm') ||
                   userAgent.includes('raspberry') ||
                   (navigator.hardwareConcurrency !== undefined && navigator.hardwareConcurrency <= 4);
-    
+
     setIsRaspberryPi(isRpi);
   }, []);
 
@@ -55,32 +63,31 @@ const Odometer = () => {
    */
   useEffect(() => {
     if (isRaspberryPi) {
-      setSpeed(snapSpeed.current);
+      setSpeed(value);
     } else {
       requestRef.current = requestAnimationFrame(animateSpeed);
     }
-    
+
     return () => {
       if (requestRef.current) cancelAnimationFrame(requestRef.current);
     };
-  }, [snapSpeed.current, isRaspberryPi]);
+  }, [value, isRaspberryPi]);
 
-  /**
-   * Calcola la percentuale di riempimento del cerchio
-   */
-  const percentage = (speed / maxSpeed) * 80;
+  const range = Math.max(max - min, 1);
+  const progress = Math.min(Math.max((speed - min) / range, 0), 1);
+  const percentage = progress * ODOMETER.ARC_SWEEP;
 
   /**
    * Determina il colore in base alla velocità
    */
   const getColor = () => {
-    if (speed < 0.7 * maxSpeed) return "rgba(123, 212, 211, 0.6)";
-    if (speed < 0.9 * maxSpeed) return "rgba(255, 255, 255, 0.6)";
+    if (progress < 0.7) return "rgba(123, 212, 211, 0.6)";
+    if (progress < 0.9) return "rgba(255, 255, 255, 0.6)";
     return "rgba(255, 0, 0, 0.6)";
   };
 
   return (
-    <div className="componentOdometer">
+    <div className={className ? `componentOdometer ${className}` : "componentOdometer"}>
       <div className="wrapper">
         <div
           className="circle"
@@ -88,10 +95,11 @@ const Odometer = () => {
             background: `conic-gradient(${getColor()} 0% ${percentage}%, transparent ${percentage}% 100%)`,
           }}
         >
-          <div className="counter1">20</div>
-          <div className="counter2">70</div>
-          <div className="counter3">100</div>
-          <div className="counter4">150</div>
+          {TICKS.map(({ value: tick, position }) => (
+            <span key={tick} className={position}>
+              {tick}
+            </span>
+          ))}
 
           <div className="inner" />
           <div className="mid" />
