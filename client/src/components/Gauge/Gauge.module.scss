@@ -10,9 +10,10 @@
   --gauge-arc-critical: rgba(255, 0, 0, 0.6);
   --gauge-hairline: #fff5;
   --gauge-surface: #07080810;
-  // Distance from the dial edge to the centre of each tick label. It has to
-  // clear the 100px corner radius, where the dial itself is transparent
-  --gauge-tick-inset: 22px;
+  // Gap between the dial's bounding box and the outer corner of each tick
+  // label. Kept at 0 because the space the corner radius leaves free shrinks
+  // fast as the dial gets smaller, and a wide label needs all of it
+  --gauge-tick-inset: 0px;
 
   color: #fff;
   display: flex;
@@ -122,11 +123,14 @@
   }
 }
 
-// Anchored by their centre, not an edge, so a three-digit label sits in the
-// same place a one-digit label does instead of growing across the dial
+// Each label is pinned by the corner facing away from the dial, so a wide one
+// keeps all the room the corner radius leaves free. Every label gets the same
+// box and is centred inside it, so a one-digit tick sits exactly where a
+// three-digit tick does rather than retreating into the corner
 .tick {
   position: absolute;
-  transform: translate(-50%, -50%);
+  min-width: 3ch;
+  text-align: center;
   font-size: 20px;
   line-height: 77%;
   color: var(--gauge-hairline);
@@ -136,16 +140,16 @@
 
 .tickTopRight {
   top: var(--gauge-tick-inset);
-  left: calc(100% - var(--gauge-tick-inset));
+  right: var(--gauge-tick-inset);
 }
 
 .tickBottomRight {
-  top: calc(100% - var(--gauge-tick-inset));
-  left: calc(100% - var(--gauge-tick-inset));
+  bottom: var(--gauge-tick-inset);
+  right: var(--gauge-tick-inset);
 }
 
 .tickBottomLeft {
-  top: calc(100% - var(--gauge-tick-inset));
+  bottom: var(--gauge-tick-inset);
   left: var(--gauge-tick-inset);
 }
 
