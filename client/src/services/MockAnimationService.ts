@@ -21,6 +21,7 @@ import { MOCK_ANIMATION, WARNING_LIGHTS } from '../config/constants';
 export class MockAnimationService {
   private isActive = false;
   private speedAnimationFrame: number | null = null;
+  private rpmAnimationFrame: number | null = null;
   private warningTimeout: NodeJS.Timeout | null = null;
   private temperatureAnimationFrame: number | null = null;
   private kilometresTimeout: NodeJS.Timeout | null = null;
@@ -51,6 +52,11 @@ export class MockAnimationService {
     if (this.speedAnimationFrame) {
       cancelAnimationFrame(this.speedAnimationFrame);
       this.speedAnimationFrame = null;
+    }
+
+    if (this.rpmAnimationFrame) {
+      cancelAnimationFrame(this.rpmAnimationFrame);
+      this.rpmAnimationFrame = null;
     }
 
     if (this.warningTimeout) {
@@ -134,10 +140,24 @@ export class MockAnimationService {
   }
 
   /**
-   * Animazione RPM: valore fisso
+   * Animazione RPM: derivata dalla velocità corrente.
+   * Keeping the two gauges on the same source stops them telling
+   * contradictory stories, which a fixed value did
    */
   private startRpmAnimation(): void {
-    state.session.rpm.current = MOCK_ANIMATION.RPM.FIXED_VALUE;
+    const { IDLE, MAX } = MOCK_ANIMATION.RPM;
+    const maxSpeed = state.session.speed.max;
+
+    const animate = (): void => {
+      if (!this.isActive) return;
+
+      const progress = Math.min(state.session.speed.current / maxSpeed, 1);
+
+      state.session.rpm.current = Math.round(IDLE + (MAX - IDLE) * progress);
+      this.rpmAnimationFrame = requestAnimationFrame(animate);
+    };
+
+    animate();
   }
 
   /**

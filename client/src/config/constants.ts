@@ -13,9 +13,10 @@ export const MOCK_ANIMATION = {
     PAUSE_DURATION: 5000,
   },
   
-  // RPM fisso in modalità mock
+  // RPM range covered in mock mode, from idle to the top of the sweep
   RPM: {
-    FIXED_VALUE: 1650,
+    IDLE: 800,
+    MAX: 6500,
   },
   
   // Ciclo spie di warning (ms)
