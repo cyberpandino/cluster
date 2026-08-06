@@ -86,5 +86,8 @@ export const ODOMETER = {
   SETTLE_THRESHOLD: 0.5,
   // Portion of the circumference covered by the arc (%)
   ARC_SWEEP: 80,
+  // Colour thresholds, as a fraction of max speed
+  HIGH_LEVEL: 0.7,
+  CRITICAL_LEVEL: 0.9,
 } as const;
 

@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import "./Odometer.scss";
+import { CSSProperties, useEffect, useRef, useState } from "react";
+import styles from "./Odometer.module.scss";
 import { ODOMETER } from "../../config/constants";
 import { graphics } from "../../config/environment";
 import { OdometerProps } from "./Odometer.types";
@@ -11,11 +11,23 @@ const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
  * of the arc sweep
  */
 const TICKS = [
-  { value: 20, position: "counter1" },
-  { value: 70, position: "counter2" },
-  { value: 100, position: "counter3" },
-  { value: 150, position: "counter4" },
+  { value: 20, position: styles.tickTopRight },
+  { value: 70, position: styles.tickBottomRight },
+  { value: 100, position: styles.tickBottomLeft },
+  { value: 150, position: styles.tickTopLeft },
 ];
+
+/**
+ * Maps progress to a severity level, exposed as a data attribute so the
+ * stylesheet owns the arc colours instead of splitting them across TS and SCSS
+ * @param {number} progress - Speed as a fraction of the range, from 0 to 1
+ * @returns {string} Level consumed by the [data-level] selectors
+ */
+const getLevel = (progress: number) => {
+  if (progress < ODOMETER.HIGH_LEVEL) return "normal";
+  if (progress < ODOMETER.CRITICAL_LEVEL) return "high";
+  return "critical";
+};
 
 /**
  * Odometer component
@@ -103,35 +115,24 @@ const Odometer = ({ value, min, max, className }: OdometerProps) => {
 
   const range = Math.max(max - min, 1);
   const progress = Math.min(Math.max((displayed - min) / range, 0), 1);
-  const percentage = progress * ODOMETER.ARC_SWEEP;
-
-  /**
-   * Determina il colore in base alla velocità
-   */
-  const getColor = () => {
-    if (progress < 0.7) return "rgba(123, 212, 211, 0.6)";
-    if (progress < 0.9) return "rgba(255, 255, 255, 0.6)";
-    return "rgba(255, 0, 0, 0.6)";
-  };
 
   return (
-    <div className={className ? `componentOdometer ${className}` : "componentOdometer"}>
-      <div className="wrapper">
+    <div className={className ? `${styles.root} ${className}` : styles.root}>
+      <div className={styles.wrapper}>
         <div
-          className="circle"
-          style={{
-            background: `conic-gradient(${getColor()} 0% ${percentage}%, transparent ${percentage}% 100%)`,
-          }}
+          className={styles.dial}
+          data-level={getLevel(progress)}
+          style={{ "--odometer-fill": `${progress * ODOMETER.ARC_SWEEP}%` } as CSSProperties}
         >
           {TICKS.map(({ value: tick, position }) => (
-            <span key={tick} className={position}>
+            <span key={tick} className={`${styles.tick} ${position}`}>
               {tick}
             </span>
           ))}
 
-          <div className="inner" />
-          <div className="mid" />
-          <div className="label">
+          <div className={styles.ring} />
+          <div className={styles.hub} />
+          <div className={styles.readout}>
             <h2>{Math.round(displayed)}</h2>
             <p>km/h</p>
           </div>

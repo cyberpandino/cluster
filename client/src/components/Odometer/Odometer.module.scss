@@ -1,0 +1,164 @@
+@property --odometer-arc {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: rgba(123, 212, 211, 0.6);
+}
+
+.root {
+  --odometer-arc-normal: rgba(123, 212, 211, 0.6);
+  --odometer-arc-high: rgba(255, 255, 255, 0.6);
+  --odometer-arc-critical: rgba(255, 0, 0, 0.6);
+  --odometer-hairline: #fff5;
+  --odometer-surface: #07080810;
+
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 420px;
+  min-width: 260px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.wrapper {
+  background: linear-gradient(180deg, rgba(123, 212, 211, 0.05) 0%, rgba(123, 212, 211, 0) 100%);
+  position: relative;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:before,
+  &:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    z-index: 0;
+    background: var(--odometer-hairline);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &:after {
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+}
+
+.dial {
+  --odometer-arc: var(--odometer-arc-normal);
+
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100px;
+  border: 1.5px solid var(--odometer-hairline);
+  background: conic-gradient(
+    var(--odometer-arc) 0% var(--odometer-fill, 0%),
+    transparent var(--odometer-fill, 0%) 100%
+  );
+  transition: --odometer-arc 200ms ease-out;
+
+  &[data-level="high"] {
+    --odometer-arc: var(--odometer-arc-high);
+  }
+
+  &[data-level="critical"] {
+    --odometer-arc: var(--odometer-arc-critical);
+  }
+}
+
+.ring {
+  position: absolute;
+  width: 75%;
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 80px;
+  z-index: 0;
+  border: 1.5px dashed var(--odometer-hairline);
+  backdrop-filter: blur(100px);
+  background: var(--odometer-surface);
+}
+
+.hub {
+  position: absolute;
+  width: 50%;
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 50px;
+  z-index: 1;
+  border: 1.5px solid var(--odometer-hairline);
+  backdrop-filter: blur(100px);
+  background: var(--odometer-surface);
+}
+
+.readout {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
+
+  h2 {
+    font-weight: 300;
+    font-size: 50px;
+    line-height: 77%;
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.tick {
+  position: absolute;
+  font-size: 20px;
+  line-height: 77%;
+  color: var(--odometer-hairline);
+  font-variant-numeric: tabular-nums;
+}
+
+.tickTopRight {
+  top: 0;
+  right: 0;
+}
+
+.tickBottomRight {
+  bottom: 0;
+  right: 0;
+}
+
+.tickBottomLeft {
+  bottom: 0;
+  left: 0;
+}
+
+.tickTopLeft {
+  top: 0;
+  left: 0;
+}
+
+// Lowest graphics quality: no blur, opaque surfaces
+:global(body.quality-1) {
+  .ring,
+  .hub {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(7, 8, 8, 0.8);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dial {
+    transition: none;
+  }
+}
